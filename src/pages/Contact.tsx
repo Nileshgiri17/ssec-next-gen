@@ -1,9 +1,8 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useToast } from '@/hooks/use-toast';
 import siteData from '../data/siteData.json';
-import { Mail, Phone, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from 'lucide-react';
 
 const Contact = () => {
   const { toast } = useToast();
