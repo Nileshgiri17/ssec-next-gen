@@ -1,0 +1,80 @@
+
+{
+  "pageTitle": "Our Courses",
+  "pageDescription": "Discover our comprehensive range of engineering programs designed to prepare future leaders",
+  "heroImage": "/courses-hero.jpg",
+  "departments": [
+    {
+      "id": "cse",
+      "name": "Computer Science Engineering (CSE)",
+      "shortDescription": "Comprehensive program covering all aspects of computer science and engineering.",
+      "image": "/departments/cse.jpg",
+      "detailsLink": "/courses/cse",
+      "fullDescription": "Our B.Tech program in Computer Science Engineering provides a strong foundation in computer programming, algorithms, database systems, computer networks, and software engineering. Students are prepared for careers in software development, system analysis, and IT management.",
+      "highlights": [
+        "Advanced programming techniques",
+        "Data structures and algorithms",
+        "Web and mobile application development",
+        "Cloud computing and big data analytics",
+        "Artificial Intelligence basics"
+      ],
+      "duration": "4 years",
+      "eligibility": "10+2 with minimum 60% in PCM",
+      "career": "Software Developer, System Analyst, Database Administrator, Network Engineer, IT Consultant"
+    },
+    {
+      "id": "it",
+      "name": "Information Technology (IT)",
+      "shortDescription": "Specialized program focusing on information systems and technology management.",
+      "image": "/departments/it.jpg",
+      "detailsLink": "/courses/it",
+      "fullDescription": "B.Tech in Information Technology focuses on information systems, database management, networking, and IT infrastructure. Students gain expertise in managing information resources, developing applications, and implementing IT solutions for businesses.",
+      "highlights": [
+        "Information systems design",
+        "Database management systems",
+        "Network security",
+        "Business intelligence",
+        "IT project management"
+      ],
+      "duration": "4 years",
+      "eligibility": "10+2 with minimum 60% in PCM",
+      "career": "IT Manager, Systems Architect, Information Security Analyst, Data Manager, IT Consultant"
+    },
+    {
+      "id": "aiml",
+      "name": "Artificial Intelligence & Machine Learning (AIML)",
+      "shortDescription": "Cutting-edge program dedicated to AI algorithms, machine learning, and intelligent systems.",
+      "image": "/departments/aiml.jpg",
+      "detailsLink": "/courses/aiml",
+      "fullDescription": "Our specialized B.Tech program in Artificial Intelligence & Machine Learning prepares students for the future of technology. The curriculum covers neural networks, deep learning, natural language processing, computer vision, and data science, providing skills for creating intelligent systems and applications.",
+      "highlights": [
+        "Neural networks and deep learning",
+        "Natural language processing",
+        "Computer vision systems",
+        "Reinforcement learning",
+        "AI ethics and implications"
+      ],
+      "duration": "4 years",
+      "eligibility": "10+2 with minimum 65% in PCM",
+      "career": "AI Engineer, Machine Learning Specialist, Data Scientist, Research Scientist, AI Product Manager"
+    },
+    {
+      "id": "ese",
+      "name": "Electronics & Systems Engineering (ESE)",
+      "shortDescription": "Innovative program combining electronics with systems engineering principles.",
+      "image": "/departments/ese.jpg",
+      "detailsLink": "/courses/ese",
+      "fullDescription": "B.Tech in Electronics & Systems Engineering provides a comprehensive education in electronic circuits, systems design, control systems, and embedded systems. Students learn to design, analyze, and implement electronic systems for various applications, from consumer electronics to industrial control systems.",
+      "highlights": [
+        "Electronic circuit design",
+        "Systems modeling and simulation",
+        "Embedded systems development",
+        "Control systems engineering",
+        "IoT device programming"
+      ],
+      "duration": "4 years",
+      "eligibility": "10+2 with minimum 60% in PCM",
+      "career": "Electronics Engineer, Systems Engineer, Embedded Systems Developer, Control Systems Engineer, IoT Developer"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+
+{
+  "pageTitle": "About Us",
+  "pageDescription": "Learn about our history, mission, vision, and achievements",
+  "heroImage": "/about-hero.jpg",
+  "mainContent": {
+    "title": "Excellence in Engineering Education",
+    "description": "Founded in 1995, Engineering College has been at the forefront of technical education for over 25 years. We are committed to providing quality education and fostering innovation.",
+    "mission": "To impart quality technical education and prepare students for the challenges of the ever-evolving technological landscape.",
+    "vision": "To be a center of excellence in engineering education, research, and innovation, producing globally competitive professionals."
+  },
+  "timeline": [
+    {
+      "year": "1995",
+      "title": "Foundation",
+      "description": "Established with a vision to provide quality technical education."
+    },
+    {
+      "year": "2000",
+      "title": "First Batch Graduates",
+      "description": "Successfully graduated first batch with 100% placement."
+    },
+    {
+      "year": "2005",
+      "title": "Research Center",
+      "description": "Established advanced research center for technological innovation."
+    },
+    {
+      "year": "2015",
+      "title": "National Recognition",
+      "description": "Received 'A+' grade from National Assessment & Accreditation Council."
+    },
+    {
+      "year": "2020",
+      "title": "International Collaborations",
+      "description": "Partnered with international universities for academic exchange."
+    }
+  ],
+  "facilities": [
+    {
+      "title": "Modern Laboratories",
+      "description": "State-of-the-art laboratories equipped with latest technology and tools.",
+      "image": "/facilities/lab.jpg"
+    },
+    {
+      "title": "Digital Library",
+      "description": "Extensive digital library with access to international journals and research papers.",
+      "image": "/facilities/library.jpg"
+    },
+    {
+      "title": "Sports Complex",
+      "description": "Comprehensive sports facilities for overall development of students.",
+      "image": "/facilities/sports.jpg"
+    },
+    {
+      "title": "Hostel Facilities",
+      "description": "Comfortable and secure accommodation for outstation students.",
+      "image": "/facilities/hostel.jpg"
+    }
+  ]
+}
