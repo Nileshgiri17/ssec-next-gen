@@ -4,6 +4,13 @@ import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import siteData from '../data/siteData.json';
 import { ArrowRight, ChevronRight, Book, Calendar, CheckCircle, GraduationCap, Users, Building, Medal } from 'lucide-react';
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from '@/components/ui/carousel';
 
 // Card component for announcements
 const AnnouncementCard = ({ announcement }: { announcement: any }) => (
@@ -65,44 +72,75 @@ const StatCard = ({ icon, number, text, delay }: { icon: any, number: string, te
 const Index = () => {
   const { heroSection, announcements } = siteData;
   const programs = ['Computer Science Engineering', 'Information Technology', 'AI & Machine Learning', 'Electronics & Systems Engineering'];
+  
+  // Images for the carousel
+  const sliderImages = [
+    {
+      url: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81", 
+      alt: "Students in tech lab",
+      caption: "State-of-the-art technology labs"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d", 
+      alt: "Student working on laptop",
+      caption: "Modern learning environment"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158", 
+      alt: "Student researching",
+      caption: "Research-driven education"
+    }
+  ];
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-primary/80 text-white py-24 md:py-32 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/hero-pattern.svg')] opacity-10"></div>
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-3xl content-animation">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              {heroSection.title}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
-              {heroSection.subtitle}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link 
-                to={heroSection.ctaLink}
-                className="bg-white text-primary px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/90 transition-all transform hover:scale-105"
-              >
-                {heroSection.cta}
-                <ArrowRight size={16} className="ml-2" />
-              </Link>
-              <Link 
-                to="/courses"
-                className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/10 transition-colors"
-              >
-                Explore Programs
-              </Link>
-            </div>
-          </div>
-        </div>
-        
-        {/* Curved bottom */}
-        <div className="absolute bottom-0 left-0 right-0 h-16">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="absolute bottom-0">
-            <path fill="#ffffff" fillOpacity="1" d="M0,224L80,213.3C160,203,320,181,480,186.7C640,192,800,224,960,229.3C1120,235,1280,213,1360,202.7L1440,192L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
-          </svg>
-        </div>
+      {/* Hero Section with Image Slider */}
+      <section className="relative overflow-hidden">
+        <Carousel className="w-full" opts={{ loop: true }}>
+          <CarouselContent>
+            {sliderImages.map((image, index) => (
+              <CarouselItem key={index} className="h-[70vh]">
+                <div className="relative h-full w-full">
+                  <img 
+                    src={image.url} 
+                    alt={image.alt}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
+                    <div className="container mx-auto px-4 max-w-3xl">
+                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+                        {heroSection.title}
+                      </h1>
+                      <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
+                        {heroSection.subtitle}
+                      </p>
+                      <div className="flex flex-wrap gap-4">
+                        <Link 
+                          to={heroSection.ctaLink}
+                          className="bg-white text-primary px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/90 transition-all transform hover:scale-105"
+                        >
+                          {heroSection.cta}
+                          <ArrowRight size={16} className="ml-2" />
+                        </Link>
+                        <Link 
+                          to="/courses"
+                          className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/10 transition-colors"
+                        >
+                          Explore Programs
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-primary/80 py-2 px-4">
+                    <p className="text-white text-center">{image.caption}</p>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4 bg-white/80 hover:bg-white" />
+          <CarouselNext className="right-4 bg-white/80 hover:bg-white" />
+        </Carousel>
       </section>
 
       {/* Highlights Section */}
