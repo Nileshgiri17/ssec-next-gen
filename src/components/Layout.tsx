@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import siteData from '../data/siteData.json';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import PageLoader from './PageLoader';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
   
   // Handle scroll effect for header
@@ -29,17 +31,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     };
   }, []);
 
-  // Close mobile menu when route changes
+  // Scroll to top and show loader on route change
   useEffect(() => {
+    window.scrollTo(0, 0);
     setMobileMenuOpen(false);
+    
+    // Show loader
+    setLoading(true);
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500); // Short timeout for better UX
+    
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   return (
     <div className="flex flex-col min-h-screen">
+      {loading && <PageLoader />}
+      
       {/* Header */}
       <header 
         className={`sticky top-0 z-50 transition-all duration-300 header-animation ${
-          isScrolled 
+          isScrolled || location.pathname !== '/' 
             ? 'bg-white shadow-md py-2' 
             : 'bg-transparent py-4'
         }`}
@@ -105,7 +118,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow">
+      <main className="flex-grow animate-fade-in">
         {children}
       </main>
 

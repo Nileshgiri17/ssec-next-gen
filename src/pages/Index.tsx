@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
 import siteData from '../data/siteData.json';
@@ -11,10 +11,12 @@ import {
   CarouselNext, 
   CarouselPrevious 
 } from '@/components/ui/carousel';
+import { Button } from '@/components/ui/button';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 // Card component for announcements
 const AnnouncementCard = ({ announcement }: { announcement: any }) => (
-  <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all hover:-translate-y-1">
+  <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all hover:-translate-y-1 animate-fade-in">
     <div className="flex items-center mb-4 text-primary">
       <Calendar size={18} className="mr-2" />
       <span className="text-sm font-medium">{announcement.date}</span>
@@ -54,9 +56,9 @@ const ProgramCard = ({ program }: { program: any }) => (
 );
 
 // Stat card component
-const StatCard = ({ icon, number, text, delay }: { icon: any, number: string, text: string, delay: string }) => (
+const StatCard = ({ icon, number, text, delay }: { icon: React.ReactNode, number: string, text: string, delay: string }) => (
   <div 
-    className={`p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-1 animate-fade-in`} 
+    className="p-6 bg-white rounded-lg shadow-md hover:shadow-lg transition-all hover:-translate-y-1 animate-fade-in"
     style={{ animationDelay: delay }}
   >
     <div className="flex items-center mb-3">
@@ -72,8 +74,10 @@ const StatCard = ({ icon, number, text, delay }: { icon: any, number: string, te
 const Index = () => {
   const { heroSection, announcements } = siteData;
   const programs = ['Computer Science Engineering', 'Information Technology', 'AI & Machine Learning', 'Electronics & Systems Engineering'];
+  const isMobile = useMediaQuery("(max-width: 768px)");
+  const [activeSlide, setActiveSlide] = useState(0);
   
-  // Images for the carousel
+  // Images for the carousel with better quality and relevant to education
   const sliderImages = [
     {
       url: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81", 
@@ -89,25 +93,61 @@ const Index = () => {
       url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158", 
       alt: "Student researching",
       caption: "Research-driven education"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1", 
+      alt: "College campus",
+      caption: "Beautiful campus life"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644", 
+      alt: "Students collaborating",
+      caption: "Collaborative learning experience"
     }
   ];
+
+  // Auto-rotate carousel every 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % sliderImages.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [sliderImages.length]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const api = document.querySelector('[data-carousel]');
+      if (api && 'scrollTo' in api) {
+        (api as any).scrollTo(activeSlide);
+      }
+    }
+  }, [activeSlide]);
 
   return (
     <Layout>
       {/* Hero Section with Image Slider */}
       <section className="relative overflow-hidden">
-        <Carousel className="w-full" opts={{ loop: true }}>
+        <Carousel 
+          className="w-full" 
+          opts={{ loop: true, align: "start" }}
+          data-carousel
+          value={activeSlide}
+          onValueChange={setActiveSlide}
+        >
           <CarouselContent>
             {sliderImages.map((image, index) => (
-              <CarouselItem key={index} className="h-[70vh]">
+              <CarouselItem key={index} className="h-[80vh] md:h-[85vh] relative">
                 <div className="relative h-full w-full">
-                  <img 
-                    src={image.url} 
-                    alt={image.alt}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="absolute inset-0 animate-scale-in" style={{ animationDuration: '1s', animationFillMode: 'both' }}>
+                    <img 
+                      src={image.url} 
+                      alt={image.alt}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
-                    <div className="container mx-auto px-4 max-w-3xl">
+                    <div className="container mx-auto px-4 max-w-3xl animate-fade-in" style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
                       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
                         {heroSection.title}
                       </h1>
@@ -138,6 +178,18 @@ const Index = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
+          <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-10">
+            {sliderImages.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveSlide(index)}
+                className={`w-3 h-3 rounded-full ${
+                  activeSlide === index ? 'bg-white' : 'bg-white/40'
+                } transition-colors`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
           <CarouselPrevious className="left-4 bg-white/80 hover:bg-white" />
           <CarouselNext className="right-4 bg-white/80 hover:bg-white" />
         </Carousel>

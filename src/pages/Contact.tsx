@@ -1,322 +1,264 @@
+
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { useToast } from '@/hooks/use-toast';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import siteData from '../data/siteData.json';
-import { Mail, Phone, MapPin, Send, CheckCircle, Clock } from 'lucide-react';
+import { ArrowRight, CheckCircle, Mail, MapPin, Phone } from 'lucide-react';
+
+const contactSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  phone: z.string().min(10, {
+    message: "Phone number must be at least 10 digits.",
+  }),
+  subject: z.string().min(5, {
+    message: "Subject must be at least 5 characters.",
+  }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters.",
+  }),
+});
 
 const Contact = () => {
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: ''
+  const [success, setSuccess] = useState(false);
+
+  const form = useForm<z.infer<typeof contactSchema>>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Contact form submitted:', formData);
-    toast({
-      title: "Message Sent",
-      description: "Thank you for your message. We'll respond shortly.",
-    });
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
-  };
-
-  const departments = [
-    {
-      name: "Admissions Office",
-      email: "admissions@engineeringcollege.edu",
-      phone: "+1 (123) 456-7890",
-      timings: "Monday to Friday: 9:00 AM - 5:00 PM"
-    },
-    {
-      name: "Academic Affairs",
-      email: "academics@engineeringcollege.edu",
-      phone: "+1 (123) 456-7891",
-      timings: "Monday to Friday: 9:00 AM - 4:00 PM"
-    },
-    {
-      name: "Placement Cell",
-      email: "placements@engineeringcollege.edu",
-      phone: "+1 (123) 456-7892",
-      timings: "Monday to Friday: 10:00 AM - 4:00 PM"
-    }
-  ];
+  function onSubmit(values: z.infer<typeof contactSchema>) {
+    console.log("Form values:", values);
+    setSuccess(true);
+  }
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="bg-primary text-white py-16 md:py-24">
+      <section className="bg-white py-12 md:py-20">
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl content-animation">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-            <p className="text-xl md:text-2xl text-white/90">
-              Get in touch with us for admissions, academic inquiries, or any other information.
+          <div className="text-center mb-10 md:mb-16">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-primary animate-fade-in">
+              Contact Us
+            </h1>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto animate-fade-in">
+              Get in touch with us for any inquiries or information.
+              We're here to help and answer any questions you may have.
             </p>
           </div>
-        </div>
-      </section>
 
-      {/* Contact Information */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto content-animation">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover-scale card-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Mail size={28} className="text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Email</h3>
-                <p className="mb-2">
-                  <a 
-                    href={`mailto:${siteData.siteInfo.email}`} 
-                    className="text-primary hover:underline"
-                  >
-                    {siteData.siteInfo.email}
-                  </a>
-                </p>
-                <p className="text-sm text-gray-600">For general inquiries</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover-scale card-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Phone size={28} className="text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Phone</h3>
-                <p className="mb-2">
-                  <a 
-                    href={`tel:${siteData.siteInfo.phone}`} 
-                    className="text-primary hover:underline"
-                  >
-                    {siteData.siteInfo.phone}
-                  </a>
-                </p>
-                <p className="text-sm text-gray-600">Monday-Friday, 9am-5pm</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md text-center hover-scale card-shadow">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <MapPin size={28} className="text-primary" />
-                </div>
-                <h3 className="text-lg font-bold mb-2">Address</h3>
-                <p className="mb-2">{siteData.siteInfo.address}</p>
-                <p className="text-sm text-gray-600">Visit our campus</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Form and Map */}
-      <section className="py-16 md:py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-5xl mx-auto content-animation">
-            <div className="flex flex-col lg:flex-row gap-10">
-              <div className="lg:w-1/2">
-                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-primary">Send Us a Message</h2>
-                
-                <div className="bg-white p-6 rounded-lg shadow-md">
-                  <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                      <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                          Your Name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 max-w-6xl mx-auto">
+            {/* Contact Form */}
+            <div className="animate-fade-in delay-100">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Send Us a Message</CardTitle>
+                  <CardDescription>
+                    Fill out the form below and we'll get back to you as soon as possible.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {success ? (
+                    <div className="text-center py-12">
+                      <CheckCircle className="mx-auto h-12 w-12 text-green-500 mb-4" />
+                      <h2 className="text-2xl font-semibold text-gray-800 mb-2">Message Sent</h2>
+                      <p className="text-gray-600">Thank you for contacting us. We will get back to you soon.</p>
+                    </div>
+                  ) : (
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                          control={form.control}
                           name="name"
-                          value={formData.name}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
+                        <FormField
+                          control={form.control}
                           name="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your email" type="email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                      <div>
-                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
+                        <FormField
+                          control={form.control}
                           name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your phone number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                          Subject *
-                        </label>
-                        <input
-                          type="text"
-                          id="subject"
+                        <FormField
+                          control={form.control}
                           name="subject"
-                          value={formData.subject}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Subject</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Subject" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
                         />
-                      </div>
-                    </div>
-                    
-                    <div className="mb-6">
-                      <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                        Your Message *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        rows={5}
-                        required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      ></textarea>
-                    </div>
-                    
-                    <button 
-                      type="submit"
-                      className="btn-primary inline-flex items-center"
-                    >
-                      Send Message
-                      <Send size={16} className="ml-2" />
-                    </button>
-                  </form>
-                </div>
-              </div>
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Message</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Your message" 
+                                  className="min-h-32" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <div className="pt-4">
+                          <Button type="submit" className="w-full">
+                            Send Message
+                            <ArrowRight className="ml-2" size={16} />
+                          </Button>
+                        </div>
+                      </form>
+                    </Form>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
 
-              <div className="lg:w-1/2">
-                <h2 className="text-2xl md:text-3xl font-bold mb-6 text-primary">Our Location</h2>
-                
-                <div className="bg-white rounded-lg overflow-hidden shadow-md mb-8">
-                  <div className="aspect-video bg-gray-300">
-                    {/* Placeholder for map */}
-                    <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                      <span className="text-primary/40 text-lg font-medium">College Location Map</span>
+            {/* Contact Info */}
+            <div className="space-y-8 animate-fade-in delay-200">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Contact Information</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="flex items-start">
+                    <MapPin className="h-6 w-6 text-primary mr-3 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium mb-1">Address</h3>
+                      <address className="not-italic text-gray-600">
+                        {siteData.siteInfo.address}
+                      </address>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <p className="text-gray-700">
-                      <strong>Address:</strong> {siteData.siteInfo.address}
-                    </p>
-                  </div>
-                </div>
-                
-                <h3 className="text-xl font-bold mb-4">Contact Specific Departments</h3>
-                <div className="space-y-4">
-                  {departments.map((dept, index) => (
-                    <div key={index} className="bg-white p-4 rounded-lg shadow-md">
-                      <h4 className="font-bold mb-2">{dept.name}</h4>
-                      <div className="flex items-center mb-1">
-                        <Mail size={16} className="text-primary mr-2" />
-                        <a href={`mailto:${dept.email}`} className="text-primary hover:underline">{dept.email}</a>
-                      </div>
-                      <div className="flex items-center mb-1">
-                        <Phone size={16} className="text-primary mr-2" />
-                        <a href={`tel:${dept.phone}`} className="text-primary hover:underline">{dept.phone}</a>
-                      </div>
-                      <div className="flex items-center">
-                        <Clock size={16} className="text-gray-500 mr-2" />
-                        <span className="text-gray-500 text-sm">{dept.timings}</span>
-                      </div>
+                  
+                  <div className="flex items-start">
+                    <Phone className="h-6 w-6 text-primary mr-3 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium mb-1">Phone</h3>
+                      <p className="text-gray-600">
+                        <a href={`tel:${siteData.siteInfo.phone}`} className="hover:text-primary">
+                          {siteData.siteInfo.phone}
+                        </a>
+                      </p>
                     </div>
-                  ))}
-                </div>
-              </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <Mail className="h-6 w-6 text-primary mr-3 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium mb-1">Email</h3>
+                      <p className="text-gray-600">
+                        <a href={`mailto:${siteData.siteInfo.email}`} className="hover:text-primary">
+                          {siteData.siteInfo.email}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle>Office Hours</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  <div className="flex justify-between">
+                    <span>Monday - Friday:</span>
+                    <span>8:30 AM - 5:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Saturday:</span>
+                    <span>9:00 AM - 1:00 PM</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Sunday:</span>
+                    <span>Closed</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Frequently Asked Questions */}
-      <section className="py-16 md:py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto content-animation">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-primary">Frequently Asked Questions</h2>
-              <p className="text-lg text-gray-700">
-                Find answers to commonly asked questions. If you can't find what you're looking for, please contact us.
-              </p>
-            </div>
-            
-            <div className="space-y-6">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-bold text-lg mb-2">What are the admission requirements?</h3>
-                <p className="text-gray-700">
-                  Admission requirements include 10+2 or equivalent with Physics, Chemistry, and Mathematics 
-                  as compulsory subjects with minimum 60% aggregate marks. Valid entrance exam scores may also be required.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-bold text-lg mb-2">Is there a hostel facility available?</h3>
-                <p className="text-gray-700">
-                  Yes, we provide well-maintained hostel facilities for both boys and girls with modern amenities, 
-                  mess facilities, and 24/7 security.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-bold text-lg mb-2">What is the placement record of the college?</h3>
-                <p className="text-gray-700">
-                  Our college has an excellent placement record with over 90% of eligible students getting placed 
-                  in reputed companies. We have strong ties with industry leaders who recruit our students.
-                </p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="font-bold text-lg mb-2">Are there any scholarships available?</h3>
-                <p className="text-gray-700">
-                  Yes, we offer various merit-based and need-based scholarships to deserving students. 
-                  Additionally, students can also avail government scholarships if eligible.
-                </p>
-              </div>
-            </div>
-            
-            <div className="text-center mt-10">
-              <p className="text-gray-700">
-                Still have questions? Feel free to contact us directly.
-              </p>
-            </div>
-          </div>
+      {/* Map Section */}
+      <section className="animate-fade-in delay-300">
+        <div className="w-full h-96 bg-gray-200">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.9260130854723!2d72.55444025!3d23.03227035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84b4b32333c5%3A0x7d0e24abe83f0c!2sAhmedabad%20University!5e0!3m2!1sen!2sin!4v1653302326392!5m2!1sen!2sin"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </section>
     </Layout>

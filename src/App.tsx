@@ -12,6 +12,9 @@ import Apply from "./pages/Apply";
 import Newsletter from "./pages/Newsletter";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Placement from "./pages/Placement";
+import Faculty from "./pages/Faculty";
+import Departments from "./pages/Departments";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,9 @@ const App = () => (
           <Route path="/apply" element={<Apply />} />
           <Route path="/newsletter" element={<Newsletter />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/placement" element={<Placement />} />
+          <Route path="/faculty" element={<Faculty />} />
+          <Route path="/departments" element={<Departments />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
