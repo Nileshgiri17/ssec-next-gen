@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
@@ -76,46 +77,53 @@ const Index = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [activeSlide, setActiveSlide] = useState(0);
   
-  // Images for the carousel with better quality and relevant to education
-  const sliderImages = [
+  // Updated slider content with alternating text alignment and custom content for each slide
+  const sliderContent = [
     {
-      url: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81", 
+      url: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81",
       alt: "Students in tech lab",
-      caption: "State-of-the-art technology labs"
+      title: "Leading in Technology Education",
+      subtitle: "Experience hands-on learning in state-of-the-art technology labs equipped with the latest tools and resources.",
+      alignment: "left"
     },
     {
-      url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d", 
+      url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       alt: "Student working on laptop",
-      caption: "Modern learning environment"
+      title: "Building Future Leaders",
+      subtitle: "Our modern learning environment fosters creativity, innovation, and the skills needed for tomorrow's challenges.",
+      alignment: "right"
     },
     {
-      url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158", 
+      url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       alt: "Student researching",
-      caption: "Research-driven education"
+      title: "Research Excellence",
+      subtitle: "Engage in cutting-edge research with faculty mentors and contribute to advancements in your field.",
+      alignment: "left"
     },
     {
-      url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1", 
+      url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
       alt: "College campus",
-      caption: "Beautiful campus life"
+      title: "Vibrant Campus Life",
+      subtitle: "Join a thriving community where academic excellence meets personal growth and lifelong connections.",
+      alignment: "right"
     },
     {
-      url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644", 
+      url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644",
       alt: "Students collaborating",
-      caption: "Collaborative learning experience"
+      title: "Collaborative Learning",
+      subtitle: "Develop teamwork skills through project-based learning and interdisciplinary collaboration.",
+      alignment: "left"
     }
   ];
 
   // Auto-rotate carousel every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % sliderImages.length);
+      setActiveSlide((prev) => (prev + 1) % sliderContent.length);
     }, 3000);
     
     return () => clearInterval(interval);
-  }, [sliderImages.length]);
-
-  // Fix: Remove the problematic useEffect that was trying to scroll the carousel
-  // The carousel will now be controlled by the activeSlide state
+  }, [sliderContent.length]);
 
   return (
     <Layout>
@@ -127,23 +135,24 @@ const Index = () => {
           data-carousel
         >
           <CarouselContent>
-            {sliderImages.map((image, index) => (
+            {sliderContent.map((slide, index) => (
               <CarouselItem key={index} className={`h-[80vh] md:h-[85vh] relative ${index === activeSlide ? 'opacity-100' : ''}`}>
                 <div className="relative h-full w-full">
                   <div className="absolute inset-0 animate-scale-in" style={{ animationDuration: '1s', animationFillMode: 'both' }}>
                     <img 
-                      src={image.url} 
-                      alt={image.alt}
+                      src={slide.url} 
+                      alt={slide.alt}
                       className="w-full h-full object-cover"
                     />
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
-                    <div className="container mx-auto px-4 max-w-3xl animate-fade-in" style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
+                    <div className={`container mx-auto px-4 max-w-3xl animate-fade-in ${slide.alignment === 'right' ? 'ml-auto mr-4' : 'ml-4 mr-auto'}`} 
+                      style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
                       <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
-                        {heroSection.title}
+                        {slide.title}
                       </h1>
                       <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
-                        {heroSection.subtitle}
+                        {slide.subtitle}
                       </p>
                       <div className="flex flex-wrap gap-4">
                         <Link 
@@ -163,14 +172,14 @@ const Index = () => {
                     </div>
                   </div>
                   <div className="absolute bottom-0 left-0 right-0 bg-primary/80 py-2 px-4">
-                    <p className="text-white text-center">{image.caption}</p>
+                    <p className="text-white text-center">{slide.alt}</p>
                   </div>
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
           <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-10">
-            {sliderImages.map((_, index) => (
+            {sliderContent.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActiveSlide(index)}
@@ -183,11 +192,11 @@ const Index = () => {
           </div>
           <CarouselPrevious 
             className="left-4 bg-white/80 hover:bg-white"
-            onClick={() => setActiveSlide((prev) => (prev === 0 ? sliderImages.length - 1 : prev - 1))}
+            onClick={() => setActiveSlide((prev) => (prev === 0 ? sliderContent.length - 1 : prev - 1))}
           />
           <CarouselNext 
             className="right-4 bg-white/80 hover:bg-white"
-            onClick={() => setActiveSlide((prev) => (prev + 1) % sliderImages.length)}
+            onClick={() => setActiveSlide((prev) => (prev + 1) % sliderContent.length)}
           />
         </Carousel>
       </section>
