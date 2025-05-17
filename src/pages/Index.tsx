@@ -84,43 +84,48 @@ const Index = () => {
       alt: "Students in tech lab",
       title: "Leading in Technology Education",
       subtitle: "Experience hands-on learning in state-of-the-art technology labs equipped with the latest tools and resources.",
-      alignment: "left"
+      alignment: "left",
+      buttonText: "Join Our Tech Community"
     },
     {
       url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
       alt: "Student working on laptop",
       title: "Building Future Leaders",
       subtitle: "Our modern learning environment fosters creativity, innovation, and the skills needed for tomorrow's challenges.",
-      alignment: "right"
+      alignment: "right",
+      buttonText: "Discover Our Approach"
     },
     {
       url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
       alt: "Student researching",
       title: "Research Excellence",
       subtitle: "Engage in cutting-edge research with faculty mentors and contribute to advancements in your field.",
-      alignment: "left"
+      alignment: "left",
+      buttonText: "Explore Research Options"
     },
     {
       url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
       alt: "College campus",
       title: "Vibrant Campus Life",
       subtitle: "Join a thriving community where academic excellence meets personal growth and lifelong connections.",
-      alignment: "right"
+      alignment: "right",
+      buttonText: "See Campus Activities"
     },
     {
       url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644",
       alt: "Students collaborating",
       title: "Collaborative Learning",
       subtitle: "Develop teamwork skills through project-based learning and interdisciplinary collaboration.",
-      alignment: "left"
+      alignment: "left",
+      buttonText: "Learn About Our Programs"
     }
   ];
 
-  // Auto-rotate carousel every 3 seconds
+  // Auto-rotate carousel every 2 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % sliderContent.length);
-    }, 3000);
+    }, 2000);
     
     return () => clearInterval(interval);
   }, [sliderContent.length]);
@@ -129,56 +134,54 @@ const Index = () => {
     <Layout>
       {/* Hero Section with Image Slider */}
       <section className="relative overflow-hidden">
-        <Carousel 
-          className="w-full" 
-          opts={{ loop: true, align: "start" }}
-          data-carousel
-        >
-          <CarouselContent>
-            {sliderContent.map((slide, index) => (
-              <CarouselItem key={index} className={`h-[80vh] md:h-[85vh] relative ${index === activeSlide ? 'opacity-100' : ''}`}>
-                <div className="relative h-full w-full">
-                  <div className="absolute inset-0 animate-scale-in" style={{ animationDuration: '1s', animationFillMode: 'both' }}>
-                    <img 
-                      src={slide.url} 
-                      alt={slide.alt}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
-                    <div className={`container mx-auto px-4 max-w-3xl animate-fade-in ${slide.alignment === 'right' ? 'ml-auto mr-4' : 'ml-4 mr-auto'}`} 
-                      style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
-                      <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
-                        {slide.title}
-                      </h1>
-                      <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
-                        {slide.subtitle}
-                      </p>
-                      <div className="flex flex-wrap gap-4">
-                        <Link 
-                          to={heroSection.ctaLink}
-                          className="bg-white text-primary px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/90 transition-all transform hover:scale-105"
-                        >
-                          {heroSection.cta}
-                          <ArrowRight size={16} className="ml-2" />
-                        </Link>
-                        <Link 
-                          to="/courses"
-                          className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/10 transition-colors"
-                        >
-                          Explore Programs
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-0 left-0 right-0 bg-primary/80 py-2 px-4">
-                    <p className="text-white text-center">{slide.alt}</p>
+        <div className="relative h-[80vh] md:h-[85vh]">
+          {sliderContent.map((slide, index) => (
+            <div 
+              key={index} 
+              className={`absolute inset-0 transition-opacity duration-1000 ${
+                index === activeSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
+            >
+              <div className="absolute inset-0 animate-scale-in" style={{ animationDuration: '1s', animationFillMode: 'both' }}>
+                <img 
+                  src={slide.url} 
+                  alt={slide.alt}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
+                <div className={`container mx-auto px-4 max-w-3xl animate-fade-in ${slide.alignment === 'right' ? 'ml-auto mr-4' : 'ml-4 mr-auto'}`} 
+                  style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
+                    {slide.title}
+                  </h1>
+                  <p className="text-xl md:text-2xl mb-8 text-white/90 leading-relaxed">
+                    {slide.subtitle}
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Link 
+                      to={heroSection.ctaLink}
+                      className="bg-white text-primary px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/90 transition-all transform hover:scale-105"
+                    >
+                      {slide.buttonText}
+                      <ArrowRight size={16} className="ml-2" />
+                    </Link>
+                    <Link 
+                      to="/courses"
+                      className="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold inline-flex items-center hover:bg-white/10 transition-colors"
+                    >
+                      Explore Programs
+                    </Link>
                   </div>
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-10">
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 bg-primary/80 py-2 px-4">
+                <p className="text-white text-center">{slide.alt}</p>
+              </div>
+            </div>
+          ))}
+          
+          <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-2 z-20">
             {sliderContent.map((_, index) => (
               <button
                 key={index}
@@ -190,15 +193,23 @@ const Index = () => {
               />
             ))}
           </div>
-          <CarouselPrevious 
-            className="left-4 bg-white/80 hover:bg-white"
+          
+          <button 
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white w-10 h-10 rounded-full flex items-center justify-center z-20"
             onClick={() => setActiveSlide((prev) => (prev === 0 ? sliderContent.length - 1 : prev - 1))}
-          />
-          <CarouselNext 
-            className="right-4 bg-white/80 hover:bg-white"
+          >
+            <ArrowRight size={16} className="rotate-180" />
+            <span className="sr-only">Previous slide</span>
+          </button>
+          
+          <button 
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white w-10 h-10 rounded-full flex items-center justify-center z-20"
             onClick={() => setActiveSlide((prev) => (prev + 1) % sliderContent.length)}
-          />
-        </Carousel>
+          >
+            <ArrowRight size={16} />
+            <span className="sr-only">Next slide</span>
+          </button>
+        </div>
       </section>
 
       {/* Highlights Section */}
