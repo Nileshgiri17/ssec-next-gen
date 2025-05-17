@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
@@ -115,14 +114,8 @@ const Index = () => {
     return () => clearInterval(interval);
   }, [sliderImages.length]);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const api = document.querySelector('[data-carousel]');
-      if (api && 'scrollTo' in api) {
-        (api as any).scrollTo(activeSlide);
-      }
-    }
-  }, [activeSlide]);
+  // Fix: Remove the problematic useEffect that was trying to scroll the carousel
+  // The carousel will now be controlled by the activeSlide state
 
   return (
     <Layout>
@@ -132,12 +125,10 @@ const Index = () => {
           className="w-full" 
           opts={{ loop: true, align: "start" }}
           data-carousel
-          value={activeSlide}
-          onValueChange={setActiveSlide}
         >
           <CarouselContent>
             {sliderImages.map((image, index) => (
-              <CarouselItem key={index} className="h-[80vh] md:h-[85vh] relative">
+              <CarouselItem key={index} className={`h-[80vh] md:h-[85vh] relative ${index === activeSlide ? 'opacity-100' : ''}`}>
                 <div className="relative h-full w-full">
                   <div className="absolute inset-0 animate-scale-in" style={{ animationDuration: '1s', animationFillMode: 'both' }}>
                     <img 
@@ -190,8 +181,14 @@ const Index = () => {
               />
             ))}
           </div>
-          <CarouselPrevious className="left-4 bg-white/80 hover:bg-white" />
-          <CarouselNext className="right-4 bg-white/80 hover:bg-white" />
+          <CarouselPrevious 
+            className="left-4 bg-white/80 hover:bg-white"
+            onClick={() => setActiveSlide((prev) => (prev === 0 ? sliderImages.length - 1 : prev - 1))}
+          />
+          <CarouselNext 
+            className="right-4 bg-white/80 hover:bg-white"
+            onClick={() => setActiveSlide((prev) => (prev + 1) % sliderImages.length)}
+          />
         </Carousel>
       </section>
 
