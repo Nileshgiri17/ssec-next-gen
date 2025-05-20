@@ -1,14 +1,15 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, Mail, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Newsletter = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
-  const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const interestOptions = [
     'Academic News',
@@ -20,14 +21,43 @@ const Newsletter = () => {
     'Industry Partnerships'
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Newsletter subscription:', { email, interests });
-    toast({
-      title: "Subscription Successful",
-      description: "Thank you for subscribing to our newsletter!",
-    });
-    setSubscribed(true);
+    setLoading(true);
+    
+    try {
+      // API call simulation
+      console.log('Newsletter subscription:', { email, interests });
+      
+      // Simulate API call with a timeout
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // If API call is successful
+      toast({
+        title: "Subscription Successful",
+        description: "Thank you for subscribing to our newsletter!",
+        variant: "default",
+      });
+      
+      // Redirect to success page with data
+      navigate('/success', { 
+        state: { 
+          source: 'newsletter',
+          data: { email, interests }
+        } 
+      });
+      
+    } catch (error) {
+      console.error("Error subscribing to newsletter:", error);
+      
+      toast({
+        title: "Subscription Failed",
+        description: "There was an error processing your subscription. Please try again.",
+        variant: "destructive",
+      });
+      
+      setLoading(false);
+    }
   };
 
   const handleInterestChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +145,7 @@ const Newsletter = () => {
                 </div>
 
                 <div className="md:w-1/2 p-8">
-                  {!subscribed ? (
+                  {!loading ? (
                     <>
                       <h2 className="text-2xl font-bold mb-6 text-primary">Subscribe Now</h2>
                       
@@ -166,9 +196,14 @@ const Newsletter = () => {
                         <button 
                           type="submit"
                           className="btn-primary inline-flex items-center"
+                          disabled={loading}
                         >
-                          Subscribe
-                          <ArrowRight size={16} className="ml-2" />
+                          {loading ? 'Processing...' : (
+                            <>
+                              Subscribe
+                              <ArrowRight size={16} className="ml-2" />
+                            </>
+                          )}
                         </button>
                       </form>
                     </>

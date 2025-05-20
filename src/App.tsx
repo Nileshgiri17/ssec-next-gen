@@ -15,6 +15,8 @@ import NotFound from "./pages/NotFound";
 import Placement from "./pages/Placement";
 import Faculty from "./pages/Faculty";
 import Departments from "./pages/Departments";
+import Success from "./pages/Success";
+import Activities from "./pages/Activities";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
           <Route path="/placement" element={<Placement />} />
           <Route path="/faculty" element={<Faculty />} />
           <Route path="/departments" element={<Departments />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/activities" element={<Activities />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

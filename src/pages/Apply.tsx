@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
@@ -29,10 +30,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from "@/components/ui/select";  // Correct import for Select components
+} from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import siteData from '../data/siteData.json';
 import { ArrowRight, Check, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from '@/hooks/use-toast';
 
 const FormSchema = z.object({
   name: z.string().min(2, {
@@ -63,7 +66,9 @@ const FormSchema = z.object({
 });
 
 const Apply = () => {
-  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -78,9 +83,42 @@ const Apply = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log("Form values:", values);
-    setSuccess(true);
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    setLoading(true);
+    
+    try {
+      // API call simulation
+      console.log("Submitting application:", values);
+      
+      // Simulate API call with a timeout
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      
+      // If API call is successful
+      toast({
+        title: "Application Submitted",
+        description: "Your application has been successfully submitted!",
+        variant: "default",
+      });
+      
+      // Redirect to success page with data
+      navigate('/success', { 
+        state: { 
+          source: 'apply',
+          data: values
+        } 
+      });
+      
+    } catch (error) {
+      console.error("Error submitting application:", error);
+      
+      toast({
+        title: "Submission Failed",
+        description: "There was an error submitting your application. Please try again.",
+        variant: "destructive",
+      });
+      
+      setLoading(false);
+    }
   }
 
   return (
@@ -95,129 +133,134 @@ const Apply = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {success ? (
-                <div className="text-center py-12">
-                  <CheckCircle className="mx-auto h-12 w-12 text-green-500 mb-4" />
-                  <h2 className="text-2xl font-semibold text-gray-800 mb-2">Application Submitted</h2>
-                  <p className="text-gray-600">Thank you for your application. We will review your submission and contact you soon.</p>
-                </div>
-              ) : (
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your name" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your email" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="age"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Age</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="number" 
-                              placeholder="Enter your age" 
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="university"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>University</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your university" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="course"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Course</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your course" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="experience"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Experience (years)</FormLabel>
-                          <FormControl>
-                            <Slider
-                              defaultValue={[field.value]}
-                              max={10}
-                              step={1}
-                              onValueChange={(value) => field.onChange(value[0])}
-                            />
-                          </FormControl>
-                          <FormDescription>
-                            Specify your years of experience.
-                          </FormDescription>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="message"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Message</FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Tell us more about yourself"
-                              className="resize-none"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit">
-                      Submit Application
-                      <ArrowRight className="ml-2" size={16} />
-                    </Button>
-                  </form>
-                </Form>
-              )}
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="age"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Age</FormLabel>
+                        <FormControl>
+                          <Input 
+                            type="number" 
+                            placeholder="Enter your age" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="university"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>University</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your university" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="course"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Course</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your course" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="experience"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Experience (years)</FormLabel>
+                        <FormControl>
+                          <Slider
+                            defaultValue={[field.value]}
+                            max={10}
+                            step={1}
+                            onValueChange={(value) => field.onChange(value[0])}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Specify your years of experience.
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="message"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Message</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Tell us more about yourself"
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <Button type="submit" disabled={loading}>
+                    {loading ? (
+                      <>Processing...</>
+                    ) : (
+                      <>
+                        Submit Application
+                        <ArrowRight className="ml-2" size={16} />
+                      </>
+                    )}
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
             <CardFooter className="flex justify-between">
               <div>
