@@ -218,7 +218,7 @@ const Newsletter = () => {
                       </p>
                       <button 
                         onClick={() => {
-                          setSubscribed(false);
+                          setLoading(false);
                           setEmail('');
                           setInterests([]);
                         }}
