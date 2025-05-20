@@ -37,12 +37,27 @@ import { ArrowRight, Check, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
+// Enhanced FormSchema with new validations
 const FormSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
   email: z.string().email({
     message: "Please enter a valid email address.",
+  }),
+  mobile: z.string().min(10, {
+    message: "Mobile number must be at least 10 digits.",
+  }).max(10, {
+    message: "Mobile number must not exceed 10 digits.",
+  }).refine(val => /^\d+$/.test(val), {
+    message: "Mobile number must contain only digits.",
+  }),
+  whatsapp: z.string().min(10, {
+    message: "WhatsApp number must be at least 10 digits.",
+  }).max(10, {
+    message: "WhatsApp number must not exceed 10 digits.",
+  }).refine(val => /^\d+$/.test(val), {
+    message: "WhatsApp number must contain only digits.",
   }),
   age: z.number().min(18, {
     message: "You must be at least 18 years old to apply.",
@@ -60,10 +75,37 @@ const FormSchema = z.object({
   }).max(10, {
     message: "Experience must be less than 10 years."
   }),
+  priority1: z.string().min(1, {
+    message: "Please select Priority 1.",
+  }),
+  priority2: z.string().min(1, {
+    message: "Please select Priority 2.",
+  }),
+  priority3: z.string().min(1, {
+    message: "Please select Priority 3.",
+  }),
   message: z.string().min(10, {
     message: "Message must be at least 10 characters.",
   }),
-});
+}).refine(
+  (data) => data.priority1 !== data.priority2, 
+  {
+    message: "Priority 1 and Priority 2 cannot be the same",
+    path: ["priority2"],
+  }
+).refine(
+  (data) => data.priority2 !== data.priority3,
+  {
+    message: "Priority 2 and Priority 3 cannot be the same",
+    path: ["priority3"],
+  }
+).refine(
+  (data) => data.priority1 !== data.priority3,
+  {
+    message: "Priority 1 and Priority 3 cannot be the same",
+    path: ["priority3"],
+  }
+);
 
 const Apply = () => {
   const [loading, setLoading] = useState(false);
@@ -75,13 +117,33 @@ const Apply = () => {
     defaultValues: {
       name: "",
       email: "",
+      mobile: "",
+      whatsapp: "",
       age: 18,
       university: "",
       course: "",
       experience: 0,
+      priority1: "",
+      priority2: "",
+      priority3: "",
       message: "",
     },
   });
+
+  // Get current values to implement the priority selection logic
+  const priority1Value = form.watch("priority1");
+  const priority2Value = form.watch("priority2");
+  const priority3Value = form.watch("priority3");
+
+  // Available priorities options
+  const priorityOptions = [
+    { value: "management", label: "Management" },
+    { value: "engineering", label: "Engineering" },
+    { value: "arts", label: "Arts" },
+    { value: "science", label: "Science" },
+    { value: "commerce", label: "Commerce" },
+    { value: "medicine", label: "Medicine" }
+  ];
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
@@ -163,6 +225,44 @@ const Apply = () => {
                     )}
                   />
                   
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="mobile"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mobile Number</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="tel" 
+                              placeholder="10 digit mobile number" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="whatsapp"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>WhatsApp Number</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="tel" 
+                              placeholder="10 digit WhatsApp number" 
+                              {...field} 
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
                   <FormField
                     control={form.control}
                     name="age"
@@ -230,6 +330,101 @@ const Apply = () => {
                       </FormItem>
                     )}
                   />
+                  
+                  <div className="space-y-4">
+                    <h3 className="font-medium">Select your priorities</h3>
+                    
+                    <FormField
+                      control={form.control}
+                      name="priority1"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Priority 1</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select your first priority" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {priorityOptions.map((option) => (
+                                <SelectItem 
+                                  key={`p1-${option.value}`} 
+                                  value={option.value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="priority2"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Priority 2</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select your second priority" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {priorityOptions
+                                .filter(option => option.value !== priority1Value)
+                                .map((option) => (
+                                  <SelectItem 
+                                    key={`p2-${option.value}`} 
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="priority3"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Priority 3</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select your third priority" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {priorityOptions
+                                .filter(option => 
+                                  option.value !== priority1Value && 
+                                  option.value !== priority2Value
+                                )
+                                .map((option) => (
+                                  <SelectItem 
+                                    key={`p3-${option.value}`} 
+                                    value={option.value}
+                                  >
+                                    {option.label}
+                                  </SelectItem>
+                                ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   
                   <FormField
                     control={form.control}
