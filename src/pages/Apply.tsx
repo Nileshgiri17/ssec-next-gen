@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -33,7 +33,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import siteData from '../data/siteData.json';
-import { ArrowRight, Check, CheckCircle } from 'lucide-react';
+import { ArrowRight, Check, CheckCircle, Reset } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
@@ -135,15 +135,36 @@ const Apply = () => {
   const priority2Value = form.watch("priority2");
   const priority3Value = form.watch("priority3");
 
-  // Available priorities options
+  // Available priorities options - updated to match the provided values
   const priorityOptions = [
-    { value: "management", label: "Management" },
-    { value: "engineering", label: "Engineering" },
-    { value: "arts", label: "Arts" },
-    { value: "science", label: "Science" },
-    { value: "commerce", label: "Commerce" },
-    { value: "medicine", label: "Medicine" }
+    { value: "B.Tech(CS)", label: "CS" },
+    { value: "B.Tech(IT)", label: "IT" },
+    { value: "B.Tech(AIML)", label: "AI/ML" },
+    { value: "B.Tech(ECE)", label: "ECE" }
   ];
+
+  // Handle number input for mobile and whatsapp
+  const handleNumberInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Only allow digits and limit to 10 characters
+    if (/^\d*$/.test(value) && value.length <= 10) {
+      return value;
+    }
+    return e.target.value.slice(0, -1);
+  };
+
+  // Reset priorities function
+  const resetPriorities = () => {
+    form.setValue("priority1", "");
+    form.setValue("priority2", "");
+    form.setValue("priority3", "");
+    
+    toast({
+      title: "Priorities Reset",
+      description: "Priority selections have been cleared.",
+      variant: "default",
+    });
+  };
 
   async function onSubmit(values: z.infer<typeof FormSchema>) {
     setLoading(true);
@@ -236,6 +257,13 @@ const Apply = () => {
                             <Input 
                               type="tel" 
                               placeholder="10 digit mobile number" 
+                              maxLength={10}
+                              onInput={(e) => {
+                                const target = e.target as HTMLInputElement;
+                                const value = target.value.replace(/\D/g, "");
+                                field.onChange(value);
+                                target.value = value;
+                              }}
                               {...field} 
                             />
                           </FormControl>
@@ -254,6 +282,13 @@ const Apply = () => {
                             <Input 
                               type="tel" 
                               placeholder="10 digit WhatsApp number" 
+                              maxLength={10}
+                              onInput={(e) => {
+                                const target = e.target as HTMLInputElement;
+                                const value = target.value.replace(/\D/g, "");
+                                field.onChange(value);
+                                target.value = value;
+                              }}
                               {...field} 
                             />
                           </FormControl>
@@ -332,7 +367,18 @@ const Apply = () => {
                   />
                   
                   <div className="space-y-4">
-                    <h3 className="font-medium">Select your priorities</h3>
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-medium">Select your priorities</h3>
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        onClick={resetPriorities} 
+                        className="flex items-center gap-1"
+                      >
+                        <Reset className="h-4 w-4" />
+                        Reset Priorities
+                      </Button>
+                    </div>
                     
                     <FormField
                       control={form.control}
@@ -340,7 +386,7 @@ const Apply = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Priority 1</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select your first priority" />
@@ -351,6 +397,7 @@ const Apply = () => {
                                 <SelectItem 
                                   key={`p1-${option.value}`} 
                                   value={option.value}
+                                  disabled={option.value === priority2Value || option.value === priority3Value}
                                 >
                                   {option.label}
                                 </SelectItem>
@@ -368,23 +415,22 @@ const Apply = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Priority 2</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select your second priority" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {priorityOptions
-                                .filter(option => option.value !== priority1Value)
-                                .map((option) => (
-                                  <SelectItem 
-                                    key={`p2-${option.value}`} 
-                                    value={option.value}
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
+                              {priorityOptions.map((option) => (
+                                <SelectItem 
+                                  key={`p2-${option.value}`} 
+                                  value={option.value}
+                                  disabled={option.value === priority1Value || option.value === priority3Value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -398,26 +444,22 @@ const Apply = () => {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Priority 3</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger>
                                 <SelectValue placeholder="Select your third priority" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {priorityOptions
-                                .filter(option => 
-                                  option.value !== priority1Value && 
-                                  option.value !== priority2Value
-                                )
-                                .map((option) => (
-                                  <SelectItem 
-                                    key={`p3-${option.value}`} 
-                                    value={option.value}
-                                  >
-                                    {option.label}
-                                  </SelectItem>
-                                ))}
+                              {priorityOptions.map((option) => (
+                                <SelectItem 
+                                  key={`p3-${option.value}`} 
+                                  value={option.value}
+                                  disabled={option.value === priority1Value || option.value === priority2Value}
+                                >
+                                  {option.label}
+                                </SelectItem>
+                              ))}
                             </SelectContent>
                           </Select>
                           <FormMessage />
