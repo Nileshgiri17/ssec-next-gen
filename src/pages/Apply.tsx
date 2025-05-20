@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
@@ -33,7 +32,7 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import siteData from '../data/siteData.json';
-import { ArrowRight, Check, CheckCircle, Reset } from 'lucide-react';
+import { ArrowRight, Check, CheckCircle, RefreshCw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
@@ -375,7 +374,7 @@ const Apply = () => {
                         onClick={resetPriorities} 
                         className="flex items-center gap-1"
                       >
-                        <Reset className="h-4 w-4" />
+                        <RefreshCw className="h-4 w-4" />
                         Reset Priorities
                       </Button>
                     </div>
