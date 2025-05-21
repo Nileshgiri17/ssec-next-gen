@@ -18,6 +18,7 @@ import Departments from "./pages/Departments";
 import Success from "./pages/Success";
 import Activities from "./pages/Activities";
 import ActivityDetail from "./pages/ActivityDetail";
+import UpcomingEventDetail from "./pages/UpcomingEventDetail";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/success" element={<Success />} />
           <Route path="/activities" element={<Activities />} />
           <Route path="/activities/:id" element={<ActivityDetail />} />
+          <Route path="/upcoming-events/:id" element={<UpcomingEventDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

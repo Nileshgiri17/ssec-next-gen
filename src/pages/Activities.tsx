@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
@@ -331,7 +330,7 @@ const Activities = () => {
                     
                     <div className="flex flex-col sm:flex-row gap-2">
                       <Button variant="outline" size="sm" asChild>
-                        <Link to={`/activities/${event.id}`}>
+                        <Link to={`/upcoming-events/${event.id}`}>
                           Details
                         </Link>
                       </Button>
