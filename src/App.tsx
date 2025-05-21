@@ -17,6 +17,7 @@ import Faculty from "./pages/Faculty";
 import Departments from "./pages/Departments";
 import Success from "./pages/Success";
 import Activities from "./pages/Activities";
+import ActivityDetail from "./pages/ActivityDetail";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
           <Route path="/departments" element={<Departments />} />
           <Route path="/success" element={<Success />} />
           <Route path="/activities" element={<Activities />} />
+          <Route path="/activities/:id" element={<ActivityDetail />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

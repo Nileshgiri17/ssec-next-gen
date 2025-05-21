@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -9,6 +10,7 @@ import { CalendarDays, Users, Award, BookOpen, Download, ArrowRight, Home } from
 const Activities = () => {
   const [loading, setLoading] = useState(true);
   const [activities, setActivities] = useState<any[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
 
   useEffect(() => {
     // Simulate API fetch
@@ -76,7 +78,46 @@ const Activities = () => {
           },
         ];
         
+        const mockUpcomingEvents = [
+          {
+            id: 7,
+            title: "Freshers' Welcome Party",
+            date: "2025-06-25",
+            time: "5:00 PM - 9:00 PM",
+            location: "College Auditorium"
+          },
+          {
+            id: 8,
+            title: "Tech Symposium",
+            date: "2025-07-05",
+            time: "10:00 AM - 4:00 PM",
+            location: "IT Department"
+          },
+          {
+            id: 9,
+            title: "Alumni Meet",
+            date: "2025-07-15",
+            time: "11:00 AM - 3:00 PM",
+            location: "College Amphitheater"
+          },
+          {
+            id: 10,
+            title: "Entrepreneurship Workshop",
+            date: "2025-07-25",
+            time: "2:00 PM - 5:00 PM",
+            location: "Business Department"
+          },
+          {
+            id: 11,
+            title: "Hackathon 2025",
+            date: "2025-08-10",
+            time: "9:00 AM (24 hours)",
+            location: "Computer Labs"
+          },
+        ];
+        
         setActivities(mockActivities);
+        setUpcomingEvents(mockUpcomingEvents);
       } catch (error) {
         console.error("Error fetching activities:", error);
       } finally {
@@ -199,9 +240,11 @@ const Activities = () => {
                           </div>
                         </CardContent>
                         <CardFooter>
-                          <Button variant="outline" size="sm" className="w-full">
-                            View Details
-                            <ArrowRight className="ml-2" size={14} />
+                          <Button variant="outline" size="sm" className="w-full" asChild>
+                            <Link to={`/activities/${activity.id}`} className="flex items-center justify-center">
+                              View Details
+                              <ArrowRight className="ml-2" size={14} />
+                            </Link>
                           </Button>
                         </CardFooter>
                       </Card>
@@ -241,9 +284,11 @@ const Activities = () => {
                             </div>
                           </CardContent>
                           <CardFooter>
-                            <Button variant="outline" size="sm" className="w-full">
-                              View Details
-                              <ArrowRight className="ml-2" size={14} />
+                            <Button variant="outline" size="sm" className="w-full" asChild>
+                              <Link to={`/activities/${activity.id}`} className="flex items-center justify-center">
+                                View Details
+                                <ArrowRight className="ml-2" size={14} />
+                              </Link>
                             </Button>
                           </CardFooter>
                         </Card>
@@ -272,15 +317,42 @@ const Activities = () => {
           </div>
           
           <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg p-6">
-            <div className="text-center py-10">
-              <p className="text-gray-600 mb-4">
-                Full calendar view coming soon. In the meantime, check out our activities listing above.
-              </p>
-              <Button>
-                View All Events
-                <ArrowRight className="ml-2" size={16} />
-              </Button>
-            </div>
+            {upcomingEvents.length > 0 ? (
+              <div className="divide-y divide-gray-200">
+                {upcomingEvents.map((event) => (
+                  <div key={event.id} className="py-4 flex flex-col md:flex-row md:items-center justify-between">
+                    <div className="mb-2 md:mb-0">
+                      <h3 className="font-medium text-lg">{event.title}</h3>
+                      <div className="flex items-center text-sm text-gray-500 mt-1">
+                        <CalendarDays className="mr-1 h-4 w-4" />
+                        <span>{formatDate(event.date)} • {event.time}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <Button variant="outline" size="sm" asChild>
+                        <Link to={`/activities/${event.id}`}>
+                          Details
+                        </Link>
+                      </Button>
+                      <Button size="sm">
+                        Add to Calendar
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <p className="text-gray-600 mb-4">
+                  Stay tuned for upcoming events.
+                </p>
+                <Button>
+                  View All Events
+                  <ArrowRight className="ml-2" size={16} />
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       </section>
