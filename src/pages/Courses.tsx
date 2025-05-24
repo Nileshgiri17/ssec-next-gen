@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
@@ -10,7 +9,11 @@ const CourseCard = ({ department }: { department: any }) => (
     <div className="h-48 bg-gray-300">
       {/* Placeholder for department image */}
       <div className="w-full h-full flex items-center justify-center bg-primary/10">
-        <Book size={48} className="text-primary/40" />
+         <img 
+        src={department.image}
+        alt="College Building" 
+        className="w-full h-full object-cover" 
+      />
       </div>
     </div>
     <div className="p-6">
@@ -46,7 +49,11 @@ const CourseDetails = ({ department }: { department: any }) => (
         <div className="bg-gray-300 rounded-lg overflow-hidden mb-6">
           {/* Placeholder for department detail image */}
           <div className="w-full aspect-video flex items-center justify-center bg-primary/10">
-            <Book size={64} className="text-primary/40" />
+             <img 
+        src={department.image}
+        alt="College Building" 
+        className="w-full h-full object-cover" 
+      />
           </div>
         </div>
         

@@ -4,58 +4,59 @@
   "pageDescription": "Learn about our history, mission, vision, and achievements",
   "heroImage": "/about-hero.jpg",
   "mainContent": {
-    "title": "Excellence in Engineering Education",
-    "description": "Founded in 1995, Engineering College has been at the forefront of technical education for over 25 years. We are committed to providing quality education and fostering innovation.",
-    "mission": "To impart quality technical education and prepare students for the challenges of the ever-evolving technological landscape.",
-    "vision": "To be a center of excellence in engineering education, research, and innovation, producing globally competitive professionals."
+    "title": "About Us",
+    "description": "Established with a vision to empower rural youth, Sant Singaji Engineering College (SSEC) offers cutting-edge technical education in Computer Science and IT. We focus on innovation, practical skills, and industry readiness.",
+    "mission": "To deliver industry-aligned technical education that empowers rural youth with the skills and mindset needed for success in the digital age.",
+    "vision": "To be a leading institution fostering innovation, research, and entrepreneurship in Computer Science and IT for sustainable global impact."
   },
-  "timeline": [
-    {
-      "year": "1995",
-      "title": "Foundation",
-      "description": "Established with a vision to provide quality technical education."
-    },
-    {
-      "year": "2000",
-      "title": "First Batch Graduates",
-      "description": "Successfully graduated first batch with 100% placement."
-    },
-    {
-      "year": "2005",
-      "title": "Research Center",
-      "description": "Established advanced research center for technological innovation."
-    },
-    {
-      "year": "2015",
-      "title": "National Recognition",
-      "description": "Received 'A+' grade from National Assessment & Accreditation Council."
-    },
-    {
-      "year": "2020",
-      "title": "International Collaborations",
-      "description": "Partnered with international universities for academic exchange."
-    }
-  ],
-  "facilities": [
-    {
-      "title": "Modern Laboratories",
-      "description": "State-of-the-art laboratories equipped with latest technology and tools.",
-      "image": "/facilities/lab.jpg"
-    },
-    {
-      "title": "Digital Library",
-      "description": "Extensive digital library with access to international journals and research papers.",
-      "image": "/facilities/library.jpg"
-    },
-    {
-      "title": "Sports Complex",
-      "description": "Comprehensive sports facilities for overall development of students.",
-      "image": "/facilities/sports.jpg"
-    },
-    {
-      "title": "Hostel Facilities",
-      "description": "Comfortable and secure accommodation for outstation students.",
-      "image": "/facilities/hostel.jpg"
-    }
-  ]
+"timeline": [
+  {
+    "year": "2010",
+    "title": "College Established",
+    "description": "Founded to provide quality higher education in a rural region."
+  },
+  {
+    "year": "2013",
+    "title": "First Batch Graduated",
+    "description": "Celebrated the graduation of the first batch of students."
+  },
+  {
+    "year": "2016",
+    "title": "1,000 Graduates Milestone",
+    "description": "Crossed the milestone of 1,000 students successfully graduating."
+  },
+  {
+    "year": "2019",
+    "title": "1,000+ Placements Achieved",
+    "description": "Achieved over 1,000 student placements in reputed companies."
+  },
+  {
+    "year": "2025",
+    "title": "Launch of Engineering College",
+    "description": "Established the first engineering college within a 100 km radius, dedicated to CS and IT excellence."
+  }
+],
+"facilities": [
+  {
+    "title": "Advanced Computer Lab",
+    "description": "Fully-equipped computer labs with high-speed internet and modern systems for hands-on technical learning.",
+    "image": "/facilities/computer-lab.jpg"
+  },
+  {
+    "title": "Live Industry Projects",
+    "description": "Students work on real-world software projects in collaboration with multiple companies, gaining practical experience.",
+    "image": "/facilities/live-projects.jpg"
+  },
+  {
+    "title": "Expert Mentorship",
+    "description": "Guidance and training by professionals from Microsoft, SAP, Infosys, Incher, Capgemini, and TCS to bridge the gap between education and industry.",
+    "image": "/facilities/mentorship.jpg"
+  },
+  {
+    "title": "Sports Facilities",
+    "description": "Well-maintained sports infrastructure supporting both indoor and outdoor games for holistic student development.",
+    "image": "/facilities/sports.jpg"
+  }
+]
+
 }

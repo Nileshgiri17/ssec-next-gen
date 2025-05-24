@@ -33,17 +33,21 @@ const AnnouncementCard = ({ announcement }: { announcement: any }) => (
 );
 
 // Card component for programs
-const ProgramCard = ({ program }: { program: any }) => (
+const ProgramCard =  ({ title, image }: { title: string, image: string })  => (
   <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
     <div className="h-48 bg-gray-200 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-tr from-primary/70 to-primary/30 flex items-center justify-center">
-        <Book size={48} className="text-white" />
+         <img 
+        src={image}
+        alt="College Building" 
+        className="w-full h-full object-cover" 
+      />
       </div>
     </div>
     <div className="p-6">
-      <h3 className="font-bold text-xl mb-2 text-primary">{program}</h3>
+      <h3 className="font-bold text-xl mb-2 text-primary">{title}</h3>
       <p className="text-gray-600 mb-4">
-        Bachelor of Technology in {program}
+        Bachelor of Technology in {title}
       </p>
       <Link 
         to="/courses" 
@@ -73,7 +77,24 @@ const StatCard = ({ icon, number, text, delay }: { icon: React.ReactNode, number
 
 const Index = () => {
   const { heroSection, announcements } = siteData;
-  const programs = ['Computer Science Engineering', 'Information Technology', 'AI & Machine Learning', 'Electronics & Systems Engineering'];
+      const programs = [
+             {
+            title: "Computer Science Engineering",
+            image: "https://ssec.ssism.org/images/card1.jpeg"
+     },
+     {
+            title: "Information Technology",
+            image: "https://ssec.ssism.org/images/card2.jpeg"
+     },
+     {
+            title: "AI & Machine Learning",
+            image: "https://ssec.ssism.org/images/card3.jpeg"
+     },
+     {
+            title: "Electronics & Systems Engineering",
+            image: "https://ssec.ssism.org/images/Btech-ECE-1.png"
+     }
+    ];
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [activeSlide, setActiveSlide] = useState(0);
   
@@ -88,7 +109,7 @@ const Index = () => {
       buttonText: "Join Our Tech Community"
     },
     {
-      url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d",
+      url: "https://ssec.ssism.org/images/ssism-photo-2.jpg",
       alt: "Student working on laptop",
       title: "Building Future Leaders",
       subtitle: "Our modern learning environment fosters creativity, innovation, and the skills needed for tomorrow's challenges.",
@@ -149,7 +170,7 @@ const Index = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/40 flex items-center">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/40 to-primary/40 flex items-center">
                 <div className={`container mx-auto px-4 max-w-3xl animate-fade-in ${slide.alignment === 'right' ? 'ml-auto mr-4' : 'ml-4 mr-auto'}`} 
                   style={{ animationDuration: '1s', animationDelay: '0.3s', animationFillMode: 'both' }}>
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
@@ -274,7 +295,7 @@ const Index = () => {
               <div className="rounded-lg overflow-hidden shadow-xl bg-white border border-gray-100">
                 <div className="relative aspect-video">
                   <img 
-                    src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b" 
+                    src="https://ssec.ssism.org/images/ssism-photo-2.jpg" 
                     alt="College campus" 
                     className="w-full h-full object-cover"
                   />
@@ -305,7 +326,7 @@ const Index = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 content-animation">
             {programs.map((program, index) => (
-              <ProgramCard key={index} program={program} />
+                <ProgramCard key={index} title={program.title} image={program.image} />
             ))}
           </div>
 

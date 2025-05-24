@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import { 
@@ -29,73 +28,73 @@ const Faculty = () => {
   const facultyMembers: FacultyMember[] = [
     {
       id: 1,
-      name: "Dr. Rajesh Kumar",
-      position: "Professor & Head",
-      department: "Computer Science Engineering",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "rajesh.kumar@example.edu",
-      phone: "+91 9876543210",
-      education: "Ph.D in Computer Science",
+      name: "Mr. Pranjal Dubey",
+      position: "Chairman",
+      department: "SSISM",
+      image: "https://en-media.thebetterindia.com/uploads/2014/12/PranjalDubey.jpg",
+      email: "pranjal@ssism.org",
+      phone: "+91 999999999",
+      education: "Ex-SAP, MCA MBA",
       specialization: "Machine Learning, Artificial Intelligence",
       linkedin: "https://linkedin.com/"
     },
-    {
-      id: 2,
-      name: "Dr. Priya Singh",
-      position: "Associate Professor",
-      department: "Information Technology",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "priya.singh@example.edu",
-      phone: "+91 9876543211",
-      education: "Ph.D in Information Technology",
-      specialization: "Data Science, Big Data Analytics"
-    },
-    {
-      id: 3,
-      name: "Prof. Amit Sharma",
-      position: "Assistant Professor",
-      department: "AI & Machine Learning",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "amit.sharma@example.edu",
-      phone: "+91 9876543212",
-      education: "M.Tech in Computer Science",
-      specialization: "Deep Learning, Neural Networks",
-      linkedin: "https://linkedin.com/"
-    },
-    {
-      id: 4,
-      name: "Dr. Sneha Patel",
-      position: "Professor",
-      department: "Electronics & Systems Engineering",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "sneha.patel@example.edu",
-      phone: "+91 9876543213",
-      education: "Ph.D in Electronics Engineering",
-      specialization: "VLSI Design, Embedded Systems"
-    },
-    {
-      id: 5,
-      name: "Prof. Rahul Verma",
-      position: "Assistant Professor",
-      department: "Computer Science Engineering",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "rahul.verma@example.edu",
-      phone: "+91 9876543214",
-      education: "M.Tech in Computer Science",
-      specialization: "Computer Networks, Cybersecurity",
-      linkedin: "https://linkedin.com/"
-    },
-    {
-      id: 6,
-      name: "Dr. Ananya Das",
-      position: "Associate Professor",
-      department: "Information Technology",
-      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=faces&q=80",
-      email: "ananya.das@example.edu",
-      phone: "+91 9876543215",
-      education: "Ph.D in Computer Applications",
-      specialization: "Software Engineering, Cloud Computing"
-    },
+    // {
+    //   id: 2,
+    //   name: "Dr. Priya Singh",
+    //   position: "Associate Professor",
+    //   department: "Information Technology",
+    //   image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=faces&q=80",
+    //   email: "priya.singh@example.edu",
+    //   phone: "+91 9876543211",
+    //   education: "Ph.D in Information Technology",
+    //   specialization: "Data Science, Big Data Analytics"
+    // },
+    // {
+    //   id: 3,
+    //   name: "Prof. Amit Sharma",
+    //   position: "Assistant Professor",
+    //   department: "AI & Machine Learning",
+    //   image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces&q=80",
+    //   email: "amit.sharma@example.edu",
+    //   phone: "+91 9876543212",
+    //   education: "M.Tech in Computer Science",
+    //   specialization: "Deep Learning, Neural Networks",
+    //   linkedin: "https://linkedin.com/"
+    // },
+    // {
+    //   id: 4,
+    //   name: "Dr. Sneha Patel",
+    //   position: "Professor",
+    //   department: "Electronics & Systems Engineering",
+    //   image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces&q=80",
+    //   email: "sneha.patel@example.edu",
+    //   phone: "+91 9876543213",
+    //   education: "Ph.D in Electronics Engineering",
+    //   specialization: "VLSI Design, Embedded Systems"
+    // },
+    // {
+    //   id: 5,
+    //   name: "Prof. Rahul Verma",
+    //   position: "Assistant Professor",
+    //   department: "Computer Science Engineering",
+    //   image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces&q=80",
+    //   email: "rahul.verma@example.edu",
+    //   phone: "+91 9876543214",
+    //   education: "M.Tech in Computer Science",
+    //   specialization: "Computer Networks, Cybersecurity",
+    //   linkedin: "https://linkedin.com/"
+    // },
+    // {
+    //   id: 6,
+    //   name: "Dr. Ananya Das",
+    //   position: "Associate Professor",
+    //   department: "Information Technology",
+    //   image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop&crop=faces&q=80",
+    //   email: "ananya.das@example.edu",
+    //   phone: "+91 9876543215",
+    //   education: "Ph.D in Computer Applications",
+    //   specialization: "Software Engineering, Cloud Computing"
+    // },
   ];
 
   // Group faculty by department

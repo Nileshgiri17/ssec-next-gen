@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Layout from '../components/Layout';
 import aboutData from '../data/aboutData.json';
@@ -30,25 +29,29 @@ const About = () => {
               <p className="text-lg text-gray-700 mb-6">
                 {mainContent.description}
               </p>
-              
+
               <div className="mt-10 space-y-6">
                 <div className="bg-accent p-6 rounded-lg">
                   <h3 className="text-xl font-bold mb-3">Our Mission</h3>
                   <p>{mainContent.mission}</p>
                 </div>
-                
+
                 <div className="bg-accent p-6 rounded-lg">
                   <h3 className="text-xl font-bold mb-3">Our Vision</h3>
                   <p>{mainContent.vision}</p>
                 </div>
               </div>
             </div>
-            
+
             <div className="md:w-1/2 content-animation">
               <div className="rounded-lg overflow-hidden shadow-xl bg-gray-300 aspect-video">
                 {/* Placeholder for about image */}
                 <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                  <span className="text-primary/40 text-lg font-medium">College Building Image</span>
+                  <img
+                    src="https://ssec.ssism.org/images/ssism-photo-2.jpg"
+                    alt="College Building"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
             </div>
@@ -68,11 +71,10 @@ const About = () => {
 
           <div className="max-w-4xl mx-auto content-animation">
             {timeline.map((item, index) => (
-              <div 
-                key={index} 
-                className={`flex mb-12 ${
-                  index % 2 === 0 ? 'flex-row' : 'flex-row md:flex-row-reverse'
-                }`}
+              <div
+                key={index}
+                className={`flex mb-12 ${index % 2 === 0 ? 'flex-row' : 'flex-row md:flex-row-reverse'
+                  }`}
               >
                 <div className="w-16 flex-shrink-0 flex justify-center">
                   <div className="w-1 bg-primary relative flex justify-center">
@@ -81,10 +83,9 @@ const About = () => {
                     </div>
                   </div>
                 </div>
-                
-                <div className={`flex-grow ${
-                  index % 2 === 0 ? 'pl-6' : 'pr-6 md:pl-6 md:pr-0'
-                }`}>
+
+                <div className={`flex-grow ${index % 2 === 0 ? 'pl-6' : 'pr-6 md:pl-6 md:pr-0'
+                  }`}>
                   <div className="bg-white p-6 rounded-lg shadow-md hover-scale card-shadow">
                     <div className="text-primary font-bold text-xl mb-2">{item.year}</div>
                     <h3 className="font-bold text-lg mb-2">{item.title}</h3>
@@ -109,8 +110,8 @@ const About = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 content-animation">
             {facilities.map((facility, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden hover-scale card-shadow"
               >
                 <div className="md:w-2/5 bg-gray-300">

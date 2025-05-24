@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useForm } from 'react-hook-form';
@@ -48,9 +47,9 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { toast } = useToast();
+   const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const { toast } = useToast();
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
@@ -63,7 +62,7 @@ const Contact = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof contactSchema>) {
+async function onSubmit(values: z.infer<typeof contactSchema>) {
     setLoading(true);
     
     try {
@@ -126,79 +125,79 @@ const Contact = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Your name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Your email" type="email" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="phone"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Phone</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Your phone number" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="subject"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Subject</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Subject" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="message"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Message</FormLabel>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Your message" 
-                                className="min-h-32" 
-                                {...field} 
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <div className="pt-4">
-                        <Button type="submit" className="w-full" disabled={loading}>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your name" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Email</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your email" type="email" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Your phone number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="subject"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Subject</FormLabel>
+                              <FormControl>
+                                <Input placeholder="Subject" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="message"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Message</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Your message" 
+                                  className="min-h-32" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <div className="pt-4">
+                                                 <Button type="submit" className="w-full" disabled={loading}>
                           {loading ? (
                             <>Sending Message...</>
                           ) : (
@@ -208,9 +207,9 @@ const Contact = () => {
                             </>
                           )}
                         </Button>
-                      </div>
-                    </form>
-                  </Form>
+                        </div>
+                      </form>
+                    </Form>
                 </CardContent>
               </Card>
             </div>
@@ -286,7 +285,7 @@ const Contact = () => {
       <section className="animate-fade-in delay-300">
         <div className="w-full h-96 bg-gray-200">
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.9260130854723!2d72.55444025!3d23.03227035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84b4b32333c5%3A0x7d0e24abe83f0c!2sAhmedabad%20University!5e0!3m2!1sen!2sin!4v1653302326392!5m2!1sen!2sin"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d230.27593687013635!2d76.96118921041487!3d22.563577159378273!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962e33773670129%3A0x7245e683a450d724!2sSant%20Singaji%20Educational%20Society!5e0!3m2!1sen!2sin!4v1747499077992!5m2!1sen!2sin"
             width="100%"
             height="100%"
             style={{ border: 0 }}

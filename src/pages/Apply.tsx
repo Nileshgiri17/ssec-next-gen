@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Layout from '../components/Layout';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/hooks/use-toast';
+import { 
+  User, 
+  Mail, 
+  Phone, 
+  CheckCircle, 
+  School, 
+  MapPin, 
+  RotateCcw,
+  Send,
+  ArrowRight
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/form';
 import { 
   Select,
   SelectContent,
@@ -30,51 +30,50 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import siteData from '../data/siteData.json';
-import { ArrowRight, Check, CheckCircle, RefreshCw } from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
 
-// Enhanced FormSchema with new validations
-const FormSchema = z.object({
-  name: z.string().min(2, {
+const formSchema = z.object({
+  firstName: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  lastName: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
   email: z.string().email({
     message: "Please enter a valid email address.",
   }),
-  mobile: z.string().min(10, {
+  phone: z.string().min(10, {
     message: "Mobile number must be at least 10 digits.",
   }).max(10, {
     message: "Mobile number must not exceed 10 digits.",
   }).refine(val => /^\d+$/.test(val), {
     message: "Mobile number must contain only digits.",
   }),
-  whatsapp: z.string().min(10, {
+  whatsappNumber: z.string().min(10, {
     message: "WhatsApp number must be at least 10 digits.",
   }).max(10, {
     message: "WhatsApp number must not exceed 10 digits.",
   }).refine(val => /^\d+$/.test(val), {
     message: "WhatsApp number must contain only digits.",
   }),
-  age: z.number().min(18, {
-    message: "You must be at least 18 years old to apply.",
-  }).max(60, {
-    message: "You must be under 60 years old to apply."
-  }),
-  university: z.string().min(2, {
+  schoolName: z.string().min(2, {
     message: "University name must be at least 2 characters.",
   }),
-  course: z.string().min(2, {
-    message: "Course must be at least 2 characters.",
+  twelfthScore: z.string().optional(),
+  jeeScore: z.string().optional(),
+  district: z.string().min(1,{
+    message: "Please select a district",
   }),
-  experience: z.number().min(0, {
-    message: "Experience must be a positive number.",
-  }).max(10, {
-    message: "Experience must be less than 10 years."
+  villageCity: z.string().min(1, {
+    message: "Village/City is required",
   }),
-  priority1: z.string().min(1, {
+  track: z.string().min(1, {
+    message: "Please select a track",
+  }),
+ priority1: z.string().min(1, {
     message: "Please select Priority 1.",
   }),
   priority2: z.string().min(1, {
@@ -83,8 +82,8 @@ const FormSchema = z.object({
   priority3: z.string().min(1, {
     message: "Please select Priority 3.",
   }),
-  message: z.string().min(10, {
-    message: "Message must be at least 10 characters.",
+  localAddress: z.string().min(5,{
+    message: "Local address is required",
   }),
 }).refine(
   (data) => data.priority1 !== data.priority2, 
@@ -107,42 +106,107 @@ const FormSchema = z.object({
 );
 
 const Apply = () => {
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      email: "",
-      mobile: "",
-      whatsapp: "",
-      age: 18,
-      university: "",
-      course: "",
-      experience: 0,
-      priority1: "",
-      priority2: "",
-      priority3: "",
-      message: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      whatsappNumber: '',
+      schoolName: '',
+      twelfthScore: '',
+      jeeScore: '',
+      district: '',
+      villageCity: '',
+      track: '',
+      priority1: '',
+      priority2: '',
+      priority3: '',
+      localAddress: '',
     },
   });
+  
+const districts = [
+  "Agar Malwa",
+  "Alirajpur",
+  "Anuppur",
+  "Ashoknagar",
+  "Balaghat",
+  "Barwani",
+  "Betul",
+  "Bhind",
+  "Bhopal",
+  "Burhanpur",
+  "Chhatarpur",
+  "Chhindwara",
+  "Damoh",
+  "Datia",
+  "Dewas",
+  "Dhar",
+  "Dindori",
+  "Guna",
+  "Gwalior",
+  "Harda",
+  "Hoshangabad (Narmadapuram)",
+  "Indore",
+  "Jabalpur",
+  "Jhabua",
+  "Katni",
+  "Khandwa",
+  "Khargone",
+  "Mandla",
+  "Mandsaur",
+  "Morena",
+  "Narsinghpur",
+  "Neemuch",
+  "Panna",
+  "Raisen",
+  "Rajgarh",
+  "Ratlam",
+  "Rewa",
+  "Sagar",
+  "Satna",
+  "Sehore",
+  "Seoni",
+  "Shahdol",
+  "Shajapur",
+  "Sheopur",
+  "Shivpuri",
+  "Sidhi",
+  "Singrauli",
+  "Tikamgarh",
+  "Ujjain",
+  "Umaria",
+  "Vidisha",
+  "other"
+];
 
+  const tracks = [ "Khategaon",
+  "Harda",
+  "Kannod",
+  "Nasrullaganj",
+  "Gopalpur",
+  "Nemawar",
+  "Satwas-Kantaphod",
+  "other"];
   // Get current values to implement the priority selection logic
   const priority1Value = form.watch("priority1");
   const priority2Value = form.watch("priority2");
   const priority3Value = form.watch("priority3");
 
-  // Available priorities options - updated to match the provided values
-  const priorityOptions = [
+    const priorityOptions = [
     { value: "B.Tech(CS)", label: "CS" },
     { value: "B.Tech(IT)", label: "IT" },
-    { value: "B.Tech(AIML)", label: "AI/ML" },
+    { value: "B.Tech(AIML)", label: "AIML" },
     { value: "B.Tech(ECE)", label: "ECE" }
   ];
 
-  // Handle number input for mobile and whatsapp
+    // Handle number input for mobile and whatsapp
   const handleNumberInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     // Only allow digits and limit to 10 characters
@@ -152,7 +216,7 @@ const Apply = () => {
     return e.target.value.slice(0, -1);
   };
 
-  // Reset priorities function
+    // Reset priorities function
   const resetPriorities = () => {
     form.setValue("priority1", "");
     form.setValue("priority2", "");
@@ -164,8 +228,8 @@ const Apply = () => {
       variant: "default",
     });
   };
-
-  async function onSubmit(values: z.infer<typeof FormSchema>) {
+  
+   async function onSubmit(values: z.infer<typeof formSchema>) {
     setLoading(true);
     
     try {
@@ -205,50 +269,86 @@ const Apply = () => {
 
   return (
     <Layout>
-      <section className="bg-white py-12 md:py-24 lg:py-32">
+      {/* Hero Section */}
+      <section className="bg-primary text-white py-16 md:py-24">
         <div className="container mx-auto px-4">
-          <Card className="max-w-3xl mx-auto">
-            <CardHeader>
-              <CardTitle className="text-2xl">Apply Now</CardTitle>
-              <CardDescription>
-                Fill out the form below to start your application.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          <div className="max-w-3xl content-animation">
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Apply for Admission</h1>
+            <p className="text-xl md:text-2xl text-white/90">
+              Take the first step towards a successful engineering career. Fill out the application form below.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Registration Form Section */}
+      <section className="py-16 md:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h2 className="text-3xl font-bold mb-2 text-primary text-center">Registration Form</h2>
+              <p className="text-center mb-8 text-gray-600">
+                1) रजिस्ट्रेशन करने के लिए ऑनलाइन रजिस्ट्रेशन शुल्क 3000 रुपए जमा करना अनिवार्य है।
+              </p>
+              
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your name" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* Name Fields */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <FormField
                       control={form.control}
-                      name="mobile"
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            First Name <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your first name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="lastName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            Last Name <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your last name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  {/* Contact Fields */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            Email <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your email" type="email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                   <FormField
+                      control={form.control}
+                      name="phone"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Mobile Number</FormLabel>
@@ -270,10 +370,13 @@ const Apply = () => {
                         </FormItem>
                       )}
                     />
-                    
-                    <FormField
+                  </div>
+                  
+                  {/* WhatsApp and School */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <FormField
                       control={form.control}
-                      name="whatsapp"
+                      name="whatsappNumber"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>WhatsApp Number</FormLabel>
@@ -295,91 +398,126 @@ const Apply = () => {
                         </FormItem>
                       )}
                     />
-                  </div>
-                  
-                  <FormField
-                    control={form.control}
-                    name="age"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Age</FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="number" 
-                            placeholder="Enter your age" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="university"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>University</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your university" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="course"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Course</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter your course" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="experience"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Experience (years)</FormLabel>
-                        <FormControl>
-                          <Slider
-                            defaultValue={[field.value]}
-                            max={10}
-                            step={1}
-                            onValueChange={(value) => field.onChange(value[0])}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          Specify your years of experience.
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <h3 className="font-medium">Select your priorities</h3>
-                      <Button 
-                        type="button" 
-                        variant="outline" 
-                        onClick={resetPriorities} 
-                        className="flex items-center gap-1"
-                      >
-                        <RefreshCw className="h-4 w-4" />
-                        Reset Priorities
-                      </Button>
-                    </div>
                     
                     <FormField
+                      control={form.control}
+                      name="schoolName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            School Name <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your school name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  {/* Score Fields */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="twelfthScore"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>12th Score (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your 12th score" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="jeeScore"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>JEE Score (Optional)</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your JEE score" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  {/* District and Village/City */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="district"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            District <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <select 
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                            {...field}
+                          >
+                            <option value="">Select</option>
+                            {districts.map((district) => (
+                              <option key={district} value={district}>
+                                {district}
+                              </option>
+                            ))}
+                          </select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="villageCity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center">
+                            Village/City <span className="text-red-500 ml-1">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter your village or city" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  
+                  {/* Track */}
+                  <FormField
+                    control={form.control}
+                    name="track"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Track (Choose your nearest track)</FormLabel>
+                        <select 
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/50"
+                          {...field}
+                        >
+                          <option value="">Select</option>
+                          {tracks.map((track) => (
+                            <option key={track} value={track}>
+                              {track}
+                            </option>
+                          ))}
+                        </select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  {/* Branch Preferences */}
+                  <div className="bg-gray-50 p-6 rounded-lg border">
+                    <h3 className="text-xl font-semibold mb-4">Branch Preferences</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                       <FormField
                       control={form.control}
                       name="priority1"
                       render={({ field }) => (
@@ -466,18 +604,34 @@ const Apply = () => {
                       )}
                     />
                   </div>
+                    
+                    <div className="mt-4">
+                      <Button 
+                        type="button" 
+                        onClick={resetPriorities}
+                        variant="outline" 
+                        className="bg-blue-500 hover:bg-blue-600 text-white"
+                      >
+                        <RotateCcw className="mr-2 h-4 w-4" />
+                        Reset Priorities
+                      </Button>
+                    </div>
+                  </div>
                   
+                  {/* Local Address */}
                   <FormField
                     control={form.control}
-                    name="message"
+                    name="localAddress"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Message</FormLabel>
+                        <FormLabel className="flex items-center">
+                          Local Address <span className="text-red-500 ml-1">*</span>
+                        </FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder="Tell us more about yourself"
-                            className="resize-none"
-                            {...field}
+                          <Textarea 
+                            placeholder="Enter your local address" 
+                            className="min-h-[80px]"
+                            {...field} 
                           />
                         </FormControl>
                         <FormMessage />
@@ -485,7 +639,7 @@ const Apply = () => {
                     )}
                   />
                   
-                  <Button type="submit" disabled={loading}>
+                   <Button type="submit" disabled={loading}>
                     {loading ? (
                       <>Processing...</>
                     ) : (
@@ -497,16 +651,56 @@ const Apply = () => {
                   </Button>
                 </form>
               </Form>
-            </CardContent>
-            <CardFooter className="flex justify-between">
-              <div>
-                {siteData.siteInfo.name} Application Form
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* How to Apply Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-10 text-primary text-center">How to Complete Your Application</h2>
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white p-6 rounded-lg shadow-md hover-scale">
+              <div className="flex items-start mb-4">
+                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mr-4">1</div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Complete Registration Form</h3>
+                  <p className="text-gray-700">Fill out all required fields in the registration form above with accurate information.</p>
+                </div>
               </div>
-              <div>
-                {new Date().getFullYear()}
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-md hover-scale">
+              <div className="flex items-start mb-4">
+                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mr-4">2</div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Pay Registration Fee</h3>
+                  <p className="text-gray-700">Complete the payment of ₹3000 registration fee through our secure payment gateway.</p>
+                </div>
               </div>
-            </CardFooter>
-          </Card>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-md hover-scale">
+              <div className="flex items-start mb-4">
+                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mr-4">3</div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Document Verification</h3>
+                  <p className="text-gray-700">Our team will contact you for verification of your documents and credentials.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-md hover-scale">
+              <div className="flex items-start mb-4">
+                <div className="bg-primary text-white rounded-full w-10 h-10 flex items-center justify-center font-bold mr-4">4</div>
+                <div>
+                  <h3 className="font-bold text-lg mb-2">Admission Confirmation</h3>
+                  <p className="text-gray-700">Upon successful verification, you will receive admission confirmation for your preferred branch.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </Layout>

@@ -21,43 +21,38 @@
       "description": "Candidates should not be more than 21 years of age as of July 1st of the admission year (relaxation for reserved categories as per norms)."
     }
   ],
-  "admissionProcess": [
-    {
-      "step": 1,
-      "title": "Online Application",
-      "description": "Fill out the online application form with all required details and pay the application fee."
-    },
-    {
-      "step": 2,
-      "title": "Document Verification",
-      "description": "Upload scanned copies of all required documents for verification."
-    },
-    {
-      "step": 3,
-      "title": "Entrance Exam",
-      "description": "Appear for JEE Main/State Engineering Entrance Examination or the college's own entrance test."
-    },
-    {
-      "step": 4,
-      "title": "Merit List",
-      "description": "Check the merit list published on the college website and official notice board."
-    },
-    {
-      "step": 5,
-      "title": "Counseling & Seat Allotment",
-      "description": "Participate in counseling and seat allotment process based on merit rank."
-    },
-    {
-      "step": 6,
-      "title": "Fee Payment",
-      "description": "Pay the required fees within the stipulated time to confirm your admission."
-    },
-    {
-      "step": 7,
-      "title": "Final Enrollment",
-      "description": "Complete the enrollment process by submitting original documents and joining orientation."
-    }
-  ],
+ "admissionProcess": [
+  {
+    "step": 1,
+    "title": "Online/Offline Registration",
+    "description": "Register for admission by filling out the application form online or visiting the campus in person."
+  },
+  {
+    "step": 2,
+    "title": "Interview Process",
+    "description": "Attend a personal interview to assess your interest, aptitude, and eligibility for the course."
+  },
+  {
+    "step": 3,
+    "title": "Document Verification",
+    "description": "Submit required documents in person or upload them online for verification."
+  },
+  {
+    "step": 4,
+    "title": "Counseling & Seat Allotment",
+    "description": "Take part in the counseling session and receive seat allotment based on performance and preferences."
+  },
+  {
+    "step": 5,
+    "title": "Fee Payment",
+    "description": "Pay the admission fees within the given time frame to confirm your allotted seat."
+  },
+  {
+    "step": 6,
+    "title": "Final Enrollment",
+    "description": "Complete the enrollment process by submitting original documents and joining the orientation program."
+  }
+],
   "importantDates": [
     {
       "event": "Application Portal Opens",
@@ -100,51 +95,22 @@
     "4 Passport Size Photographs",
     "Aadhar Card/ID Proof"
   ],
-  "feeStructure": [
-    {
-      "program": "B.Tech CSE",
-      "tuitionFee": "₹95,000 per annum",
-      "developmentFee": "₹15,000 per annum",
-      "examFee": "₹5,000 per annum",
-      "totalFee": "₹115,000 per annum"
-    },
-    {
-      "program": "B.Tech IT",
-      "tuitionFee": "₹95,000 per annum",
-      "developmentFee": "₹15,000 per annum",
-      "examFee": "₹5,000 per annum",
-      "totalFee": "₹115,000 per annum"
-    },
-    {
-      "program": "B.Tech AIML",
-      "tuitionFee": "₹100,000 per annum",
-      "developmentFee": "₹15,000 per annum",
-      "examFee": "₹5,000 per annum",
-      "totalFee": "₹120,000 per annum"
-    },
-    {
-      "program": "B.Tech ESE",
-      "tuitionFee": "₹90,000 per annum",
-      "developmentFee": "₹15,000 per annum",
-      "examFee": "₹5,000 per annum",
-      "totalFee": "₹110,000 per annum"
-    }
-  ],
-  "scholarships": [
-    {
-      "name": "Merit Scholarship",
-      "eligibility": "Top 5% of students in JEE Main/State Engineering Entrance",
-      "benefit": "50% tuition fee waiver"
-    },
-    {
-      "name": "Academic Excellence Scholarship",
-      "eligibility": "Above 90% in 10+2 examination",
-      "benefit": "25% tuition fee waiver"
-    },
-    {
-      "name": "Sports Scholarship",
-      "eligibility": "National/State level sports achievement",
-      "benefit": "Up to 40% tuition fee waiver based on achievement level"
-    }
-  ]
+"scholarships": [
+  {
+    "name": "Government Scholarship",
+    "eligibility": "Applicable for students belonging to OBC, SC, and ST categories as per government norms.",
+    "benefit": "Full or partial tuition fee waiver based on eligibility and government rules."
+  },
+  {
+    "name": "Gaon Ki Beti Scholarship",
+    "eligibility": "Female students from rural areas who have passed 12th standard from a recognized board.",
+    "benefit": "Fixed annual financial aid as per state government scheme."
+  },
+  {
+    "name": "SNS - SVS Merit Scholarship",
+    "eligibility": "Students who have successfully cleared the entrance exam conducted by SNS/SVS.",
+    "benefit": "Special tuition fee waiver or concession based on performance."
+  }
+]
+
 }

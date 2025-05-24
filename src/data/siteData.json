@@ -1,55 +1,35 @@
-
 {
-  "siteInfo": {
-    "name": "Tech Engineering College",
-    "slogan": "Shaping Future Engineers",
-    "address": "123 Education Street, Knowledge City - 380015",
-    "phone": "+91 9876543210",
-    "email": "info@techengineeringcollege.edu",
-    "socialLinks": [
-      {
-        "name": "Facebook",
-        "url": "#"
-      },
-      {
-        "name": "Twitter",
-        "url": "#"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "#"
-      },
-      {
-        "name": "Instagram",
-        "url": "#"
-      }
-    ]
-  },
-  "heroSection": {
-    "title": "Where Innovation Meets Education",
-    "subtitle": "Join our community of future engineers and innovators. Apply now for the upcoming academic session.",
-    "cta": "Apply Now",
-    "ctaLink": "/apply",
-    "highlights": [
-      {
-        "number": "2000+",
-        "text": "Students Enrolled"
-      },
-      {
-        "number": "150+",
-        "text": "Experienced Faculty"
-      },
-      {
-        "number": "30+",
-        "text": "Research Labs"
-      },
-      {
-        "number": "95%",
-        "text": "Placement Rate"
-      }
-    ]
-  },
-  "navigation": [
+    "siteInfo": {
+        "name": "Sant Singaji Engineering College",
+        "logo": "https://sssteamimage.s3.ap-south-1.amazonaws.com/ssec_logo.jpg",
+        "slogan": "Excellence in Engineering Education",
+        "address": "NH 59-A, Gram-Sandalpur, Tehsil Khategaon, District Dewas, MP, India, Pin Code – 455336",
+        "phone": "+91 9893371756",
+        "email": "contact@ssism.org",
+        "socialLinks": [
+            {
+                "name": "Facebook",
+                "icon": "facebook",
+                "url": "https://facebook.com/"
+            },
+            {
+                "name": "Twitter",
+                "icon": "twitter",
+                "url": "https://twitter.com/"
+            },
+            {
+                "name": "Instagram",
+                "icon": "instagram",
+                "url": "https://instagram.com/"
+            },
+            {
+                "name": "LinkedIn",
+                "icon": "linkedin",
+                "url": "https://linkedin.com/"
+            }
+        ]
+    },
+      "navigation": [
     {
       "name": "Home",
       "path": "/"
@@ -57,10 +37,6 @@
     {
       "name": "About",
       "path": "/about"
-    },
-    {
-      "name": "Departments",
-      "path": "/departments"
     },
     {
       "name": "Courses",
@@ -83,31 +59,64 @@
       "path": "/newsletter"
     },
     {
+      "name": "Activities",
+      "path": "/activities"
+    },
+    {
+      "name": "Apply",
+      "path": "/apply"
+    },
+    {
       "name": "Contact",
       "path": "/contact"
     }
   ],
-  "announcements": [
-    {
-      "id": 1,
-      "title": "New B.Tech Programs for 2023-24 Session",
-      "content": "We are pleased to announce new B.Tech programs in emerging technologies for the upcoming academic session.",
-      "date": "May 15, 2023",
-      "link": "/newsletter"
+    "heroSection": {
+        "title": "Shaping Tomorrow's Engineers",
+        "subtitle": "Providing quality education and innovative learning experiences since 1995",
+        "cta": "Apply Now",
+        "ctaLink": "/apply",
+        "heroImage": "https://ssec.ssism.org/images/ssism-photo-2.jpg",
+        "highlights": [
+            {
+                "number": "15+",
+                "text": "Years of Excellence"
+            },
+            {
+                "number": "50+",
+                "text": "Experienced Faculty"
+            },
+            {
+                "number": "1000+",
+                "text": "Successful Alumni"
+            },
+            {
+                "number": "95%",
+                "text": "Placement Rate"
+            }
+        ]
     },
-    {
-      "id": 2,
-      "title": "Technical Symposium on AI & Machine Learning",
-      "content": "Join us for a two-day technical symposium on Artificial Intelligence and Machine Learning.",
-      "date": "April 28, 2023",
-      "link": "/newsletter"
-    },
-    {
-      "id": 3,
-      "title": "Industry Partnership with TechCorp Inc.",
-      "content": "We are excited to announce our new industry partnership with TechCorp Inc. for student internships and placements.",
-      "date": "April 10, 2023",
-      "link": "/newsletter"
-    }
-  ]
+    "announcements": [
+        {
+            "id": 1,
+            "title": "Admission Open for 2025-26",
+            "content": "Applications are now being accepted for the academic year 2025-26. Apply before March 30th.",
+            "date": "2025-01-15",
+            "link": "/admission"
+        },
+        {
+            "id": 2,
+            "title": "New AI Research Lab Inaugurated",
+            "content": "State-of-the-art AI research laboratory inaugurated in collaboration with Tech Industries.",
+            "date": "2025-01-10",
+            "link": "/about"
+        },
+        {
+            "id": 3,
+            "title": "Scholarship Examination Dates",
+            "content": "Scholarship examination for meritorious students will be held on February 15th, 2025.",
+            "date": "2025-01-05",
+            "link": "/admission"
+        }
+    ]
 }

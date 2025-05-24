@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import Layout from '../components/Layout';
 import { useToast } from '@/hooks/use-toast';
 import { CheckCircle, Mail, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Newsletter = () => {
   const { toast } = useToast();
-  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [interests, setInterests] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const interestOptions = [
     'Academic News',
@@ -20,8 +20,7 @@ const Newsletter = () => {
     'Alumni Stories',
     'Industry Partnerships'
   ];
-
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
@@ -71,22 +70,40 @@ const Newsletter = () => {
 
   const recentNewsletters = [
     {
-      title: "Engineering Excellence Monthly",
-      description: "Our January edition featuring innovative student projects and faculty research.",
-      date: "January 2025",
-      image: "/newsletter1.jpg"
+      title: "Meet This Techie From MP Who Left His Job & Sold His House",
+      description: "Meet Pranjal Dubey, a 40-year-old techie who gave up everything to educate the youth of his village.",
+      link: "https://thelogicalindian.com/my-social-responsibility/pranjal-dubey-techie-left-job-educate-youth-village-madhya-pradesh/",
+      image: "https://ssec.ssism.org/images/news/blog1.jpg"
     },
     {
-      title: "Campus Connect Quarterly",
-      description: "Highlights from the Winter quarter including campus events and achievements.",
-      date: "December 2024",
-      image: "/newsletter2.jpg"
+      title: "Can Change Indian Higher Education?",
+      description: "How do you achieve holistic higher education? Sant Singaji Institute of Science and Management in rural Madhya Pradesh shows the way.",
+      link: "https://www.livemint.com/Opinion/hgmMiYaF2eiEY011XNuTFI/Idealistic-innovative-entrepreneurship-can-change-Indian-hi.html",
+      image: "https://ssec.ssism.org/images/news/blog2.jpg"
     },
     {
-      title: "Tech Insights Bulletin",
-      description: "Exploring the latest technological advancements and their impact on education.",
-      date: "November 2024",
-      image: "/newsletter3.jpg"
+      title: "SSISM - Social Entrepreneurship or Chaos?",
+      description: "The primary teaching objective of the case is to provide students an understanding of the following.",
+      link: "https://hbsp.harvard.edu/product/IMB479-PDF-ENG",
+      image: "https://ssec.ssism.org/images/news/blog3.jpg"
+    },
+    {
+      title: "An IT Professional Who Sold His House to Start a College for Rural Youth",
+      description: "Here is a man who gave up everything he had to settle in a small village and improve the lives of the rural youth in India.",
+      link: "https://thebetterindia.com/16347/man-sold-house-start-college-rural-youth/",
+      image: "https://ssec.ssism.org/images/news/blog4.jpg"
+    },
+    {
+      title: "Techie Sells His House for Educating Rural Youth",
+      description: "INDORE: Meet Pranjal Dubey, a 40-year-old techie who left his job at SAP SE and sold his house for teaching the youth of his ancestral village.",
+      link: "https://timesofindia.indiatimes.com/city/indore/Techie-sells-his-house-for-educating-rural-youth/articleshow/53453183.cms?TOI_browsernotification=true",
+      image: "https://ssec.ssism.org/images/news/blog5.jpg"
+    },
+    {
+      title: "Innovation in Education – The Journey of SSISM",
+      description: "Innovation in Education – The journey of SSISM in changing mindsets, transforming lives, and uplifting society.",
+      link: "#",
+      image: "https://ssec.ssism.org/images/news/blog7.jpg"
     }
   ];
 
@@ -251,16 +268,26 @@ const Newsletter = () => {
                 <div className="h-40 bg-gray-300">
                   {/* Placeholder for newsletter image */}
                   <div className="w-full h-full flex items-center justify-center bg-primary/10">
-                    <Mail size={36} className="text-primary/40" />
+                    <img 
+                      src={newsletter.image}
+                      alt="College Building" 
+                      className="w-full h-full object-cover" 
+                    />
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="text-sm text-primary/80 mb-2">{newsletter.date}</div>
                   <h3 className="font-bold text-lg mb-2">{newsletter.title}</h3>
                   <p className="text-gray-600 mb-4">{newsletter.description}</p>
-                  <button className="text-primary font-medium hover:underline inline-flex items-center">
+                  {/* <button onClick={newsletter.link} className="text-primary font-medium hover:underline inline-flex items-center">
                     Read Full Newsletter <ArrowRight size={16} className="ml-1" />
-                  </button>
+                  </button> */}
+                     <Link 
+                            to={newsletter.link} 
+                            target='_blank'
+                            className="text-primary font-medium hover:underline inline-flex items-center"
+                          >
+                             Read Full Newsletter <ArrowRight size={16} className="ml-1" />
+                          </Link>
                 </div>
               </div>
             ))}
